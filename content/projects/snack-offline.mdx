@@ -1,0 +1,11 @@
+---
+title: "Snack Offline Mode"
+description: "Enabling Expo Snack to run React Native projects without an internet connection by caching runtime bundles locally."
+url: "https://github.com/expo/snack"
+tags: ["react-native", "expo", "mobile"]
+featured: true
+---
+
+An exploration into making Expo Snack work offline by leveraging the dev launcher's ability to load JavaScript bundles from `file://` URLs. The core insight was that React Native's bridge handles local file loading natively — no WebSocket connection needed.
+
+The implementation caches the Snack runtime bundle to the device filesystem, then uses the dev launcher's `loadApp` with a `file://` URL to bootstrap the app entirely from local storage.

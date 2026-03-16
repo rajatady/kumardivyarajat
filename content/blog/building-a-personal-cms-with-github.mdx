@@ -1,0 +1,71 @@
+---
+title: "Building a Personal CMS with GitHub"
+description: "How I built a lightweight content management system using GitHub as the backend, MDX for content, and Next.js for rendering."
+date: "2026-03-17"
+tags: ["engineering", "nextjs", "open-source"]
+published: true
+---
+
+There's something deeply satisfying about building your own tools. When I set out to create this blog, I wanted something that felt like *mine* — not a cookie-cutter template, but a system I understood from the ground up.
+
+## The Problem with Traditional CMS
+
+Most content management systems are either too heavy or too opinionated. WordPress gives you everything and the kitchen sink. Headless CMS platforms like Contentful or Sanity add API complexity and monthly bills for what amounts to storing text files.
+
+What I really wanted was simple:
+
+1. Write in Markdown (with some component support)
+2. Version control my content alongside my code
+3. Deploy automatically when I push
+4. Zero runtime costs beyond hosting
+
+## Enter GitHub as a CMS
+
+The solution was staring me in the face. Git repositories are already content databases — they store files, track history, support branching, and have a built-in review process through pull requests.
+
+```typescript
+// Reading an MDX file is just reading from the filesystem
+const filePath = path.join(contentDirectory, "blog", `${slug}.mdx`);
+const fileContents = fs.readFileSync(filePath, "utf8");
+const { data, content } = matter(fileContents);
+```
+
+Each article is an `.mdx` file in the `/content/blog` directory. The filename becomes the URL slug. Frontmatter handles metadata. The rest is just content.
+
+## Why MDX Over Plain Markdown
+
+MDX lets me embed React components directly in my writing. Need a pull quote? A custom callout? An interactive demo? Just import and use it:
+
+```mdx
+---
+title: "My Article"
+---
+
+Here's a regular paragraph.
+
+<Callout type="info">
+  This is a custom callout component rendered inline.
+</Callout>
+
+And back to regular markdown.
+```
+
+This gives me the simplicity of Markdown with the power of React when I need it.
+
+## The Writing Workflow
+
+My publishing workflow is as simple as it gets:
+
+1. Create a new `.mdx` file in `/content/blog/`
+2. Write the frontmatter (title, date, tags, description)
+3. Write the article content
+4. Commit and push to GitHub
+5. Vercel detects the push and rebuilds the site
+
+No admin panel. No database migrations. No API keys. Just `git push`.
+
+## What I Learned
+
+Building your own CMS teaches you what you actually need versus what you think you need. Turns out, most of the features in traditional CMS platforms exist to solve problems that don't apply to a personal blog.
+
+Sometimes the best tool is the one you build yourself — not because it does more, but because it does exactly what you need and nothing else.
