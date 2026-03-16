@@ -175,6 +175,44 @@ html {
 }
 
 
+/* CMS Editor Overrides */
+.w-md-editor {
+  --color-canvas-default: var(--bg) !important;
+  --color-fg-default: var(--text) !important;
+  --color-border-default: var(--border) !important;
+  --color-neutral-muted: var(--bg-secondary) !important;
+  font-family: var(--font-body), Georgia, serif !important;
+  border: none !important;
+}
+
+.w-md-editor-toolbar {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border) !important;
+  padding: 6px 8px !important;
+}
+
+.w-md-editor-toolbar button:hover,
+.w-md-editor-toolbar button.active {
+  color: var(--accent) !important;
+}
+
+.w-md-editor-preview .wmde-markdown {
+  font-family: var(--font-body), Georgia, serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.w-md-editor-content {
+  background: var(--bg) !important;
+}
+
+.w-md-editor-text-pre,
+.w-md-editor-text-input,
+.w-md-editor-text {
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+}
+
 /* Subtle grain overlay */
 .grain::before {
   content: '';

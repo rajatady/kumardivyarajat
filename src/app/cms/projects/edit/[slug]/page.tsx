@@ -1,0 +1,42 @@
+import { notFound } from "next/navigation";
+import { getContentItem } from "@/lib/github";
+import { ContentEditor } from "@/components/cms/ArticleEditor";
+import { saveProject } from "@/app/cms/actions";
+import type { ProjectFrontmatter } from "@/components/cms/FrontmatterForm";
+
+export const dynamic = "force-dynamic";
+
+export default async function EditProjectPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const item = await getContentItem("projects", slug);
+
+  if (!item) notFound();
+
+  const frontmatter: ProjectFrontmatter = {
+    title: (item.frontmatter.title as string) ?? "",
+    description: (item.frontmatter.description as string) ?? "",
+    url: (item.frontmatter.url as string) ?? "",
+    tags: (item.frontmatter.tags as string[]) ?? [],
+    featured: (item.frontmatter.featured as boolean) ?? false,
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto">
+      <h1 className="font-headline text-2xl font-medium tracking-tight text-text mb-6">
+        Edit Project
+      </h1>
+      <ContentEditor
+        type="project"
+        initialFrontmatter={frontmatter}
+        initialContent={item.content}
+        initialSlug={slug}
+        initialSha={item.sha}
+        saveAction={saveProject}
+      />
+    </div>
+  );
+}
