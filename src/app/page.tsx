@@ -11,7 +11,7 @@ export default function Home() {
     <div className="mx-auto max-w-4xl px-6">
       {/* Hero */}
       <section className="pt-20 pb-16 border-b border-border">
-        <div className="animate-fade-in-up">
+        <div>
           <p className="font-ui text-sm font-medium uppercase tracking-widest text-text-muted mb-6">
             Software Engineer &amp; Writer
           </p>
@@ -31,12 +31,12 @@ export default function Home() {
       {/* Recent Writing */}
       <section className="pt-16 pb-12">
         <div className="flex items-center justify-between mb-10">
-          <h2 className="font-headline text-2xl font-medium tracking-tight text-text animate-fade-in-up animation-delay-100">
+          <h2 className="font-headline text-2xl font-medium tracking-tight text-text">
             Recent Writing
           </h2>
           <Link
             href="/blog"
-            className="font-ui text-sm font-medium text-text-muted hover:text-accent transition-colors animate-fade-in-up animation-delay-100"
+            className="font-ui text-sm font-medium text-text-muted hover:text-accent transition-colors"
           >
             View all &rarr;
           </Link>
@@ -44,12 +44,7 @@ export default function Home() {
 
         <div className="flex flex-col gap-8">
           {posts.map((post, i) => (
-            <div
-              key={post.slug}
-              className={`animate-fade-in-up animation-delay-${(i + 2) * 100}`}
-            >
-              <ArticleCard post={post} featured={i === 0} />
-            </div>
+            <ArticleCard key={post.slug} post={post} featured={i === 0} />
           ))}
         </div>
       </section>

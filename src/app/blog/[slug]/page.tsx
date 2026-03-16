@@ -79,7 +79,7 @@ export default async function BlogPost({
       </Link>
 
       {/* Article header */}
-      <header className="mb-12 max-w-2xl animate-fade-in-up">
+      <header className="mb-12 max-w-2xl">
         <div className="flex items-center gap-3 mb-4">
           <time className="font-ui text-sm font-medium uppercase tracking-widest text-text-muted">
             {formatDate(post.frontmatter.date)}
@@ -115,7 +115,7 @@ export default async function BlogPost({
       <div className="border-t border-border mb-12" />
 
       {/* Article body */}
-      <div className="prose mx-auto animate-fade-in-up animation-delay-200">
+      <div className="prose mx-auto">
         {content}
       </div>
 

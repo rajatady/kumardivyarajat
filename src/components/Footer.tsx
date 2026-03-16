@@ -1,6 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/cms")) return null;
+
   return (
     <footer className="border-t border-border mt-24">
       <div className="mx-auto max-w-4xl px-6 py-12">

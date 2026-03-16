@@ -13,15 +13,15 @@ export default function ProjectsPage() {
   return (
     <div className="mx-auto max-w-4xl px-6 pt-16 pb-12">
       <div className="mb-12">
-        <h1 className="font-headline text-4xl font-medium tracking-tight text-text mb-3 animate-fade-in-up">
+        <h1 className="font-headline text-4xl font-medium tracking-tight text-text mb-3">
           Projects
         </h1>
-        <p className="text-text-secondary leading-relaxed animate-fade-in-up animation-delay-100">
+        <p className="text-text-secondary leading-relaxed">
           Things I&apos;ve built, contributed to, and am currently working on.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in-up animation-delay-200">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {projects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}

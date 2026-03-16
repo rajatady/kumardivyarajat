@@ -9,11 +9,11 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl px-6 pt-16 pb-20">
       <div className="max-w-2xl">
-        <h1 className="font-headline text-4xl font-medium tracking-tight text-text mb-8 animate-fade-in-up">
+        <h1 className="font-headline text-4xl font-medium tracking-tight text-text mb-8">
           About
         </h1>
 
-        <div className="space-y-6 text-text-secondary leading-relaxed text-lg animate-fade-in-up animation-delay-100">
+        <div className="space-y-6 text-text-secondary leading-relaxed text-lg">
           <p>
             I&apos;m Kumar Divya Rajat, a software engineer who cares deeply
             about craft. I build things for the web and mobile, with a
@@ -36,7 +36,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="border-t border-border mt-12 pt-12 animate-fade-in-up animation-delay-200">
+        <div className="border-t border-border mt-12 pt-12">
           <h2 className="font-headline text-2xl font-medium tracking-tight text-text mb-6">
             Connect
           </h2>

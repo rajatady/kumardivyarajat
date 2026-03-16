@@ -41,22 +41,22 @@ export default async function BlogPage({
   return (
     <div className="mx-auto max-w-4xl px-6 pt-16 pb-12">
       <div className="mb-12">
-        <h1 className="font-headline text-4xl font-medium tracking-tight text-text mb-3 animate-fade-in-up">
+        <h1 className="font-headline text-4xl font-medium tracking-tight text-text mb-3">
           Blog
         </h1>
-        <p className="text-text-secondary leading-relaxed animate-fade-in-up animation-delay-100">
+        <p className="text-text-secondary leading-relaxed">
           Thoughts on software engineering, design, simplicity, and the craft of
           building things.
         </p>
       </div>
 
-      <div className="mb-10 animate-fade-in-up animation-delay-200">
+      <div className="mb-10">
         <Suspense fallback={null}>
           <TagFilter tags={tags} />
         </Suspense>
       </div>
 
-      <div className="animate-fade-in-up animation-delay-300">
+      <div>
         <BlogList tag={tag ?? null} />
       </div>
     </div>

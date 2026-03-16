@@ -12,8 +12,10 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
 
+  if (pathname?.startsWith("/cms")) return null;
+
   return (
-    <header className="border-b border-border">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
         <Link
           href="/"
