@@ -67,4 +67,9 @@ export const mdxComponents: MDXComponentsType = {
       {...props}
     />
   ),
+  Emphasis: ({ children }: { children: React.ReactNode }) => (
+    <em className="not-italic font-headline font-medium text-text bg-accent/8 px-2 py-0.5 rounded-sm mb-2 inline-block">
+      {children}
+    </em>
+  ),
 };
