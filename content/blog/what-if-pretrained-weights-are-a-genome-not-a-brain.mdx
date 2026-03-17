@@ -75,6 +75,10 @@ This makes sense through the genome lens. The human genome's value is also expon
 
 If the skeleton encodes language-specific structure, it should only help on language. If it encodes something more universal about how transformers organize computation, it might help on other tasks too.
 
+###### Cross-domain: language skeleton helps vision at every scale
+
+![image](https://xqajxza5bt4r8kvb.public.blob.vercel-storage.com/vision_cross_domain-0rnxA8WmZCGCgm8mKBfeCUbLCue1hm.png)
+
 I took the language skeleton from SmolLM2-135M and tested it on CIFAR-10 image classification. Same architecture, but the input embedding and output head are swapped for vision (pixel patches in, class labels out). The transformer body and its skeleton are unchanged.
 
 Three seeds: 42, 123, 7. The language skeleton won on all three. Mean accuracy gap: +2.5%. Small but consistent. Never flipped sign.
@@ -193,5 +197,4 @@ I don't know. The boundary conditions I haven't tested include: whether the conv
 If you see a flaw in the experiments or the reasoning, I genuinely want to hear it. I'm one person running these on a single GPU and I know my bias toward this framing is strong. The experiments are designed to test the framing, not confirm it. Several of them returned null or negative results and I've reported all of them.
 
 All code is available on [https://github.com/rajatady/Neural-Genome](https://github.com/rajatady/Neural-Genome). All raw results including the failures are in the results log.
-
 
