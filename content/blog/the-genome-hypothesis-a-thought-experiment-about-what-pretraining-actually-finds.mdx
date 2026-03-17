@@ -1,0 +1,191 @@
+---
+title: >-
+  The genome hypothesis: a thought experiment about what pretraining actually
+  finds
+description: ''
+date: '2026-03-17'
+tags: []
+published: false
+---
+
+This is a living document. It captures a line of reasoning I've been developing about what pretrained neural networks are, what they're not, and what might be missing from how we build AI. No experimental results here. Just constraints, analogies, boundary conditions, and predictions. I'll update this as the thinking evolves.
+
+If you want the experiments, they're in a separate post: [What if pretrained weights are a genome, not a brain?](/blog/what-if-pretrained-weights-are-a-genome-not-a-brain)
+
+## The starting observation
+
+Evolution and backpropagation are both search algorithms. Forget the mechanics of how. Focus on what they do. Both search for structure in the data they operate on. Both find biases. And when you press different search algorithms against the same data, they converge on the same structure.
+
+CNNs and Vision Transformers are architecturally alien. One is built on local spatial priors. The other has almost no spatial prior baked in. But when you look at their learned representations, they converge. The features they find are remarkably similar.
+
+<Emphasis>The searcher is interchangeable. The data is the message. The biases found are properties of the territory, not the algorithm.</Emphasis>
+
+This isn't a metaphor. It's an empirical observation with real evidence behind it.
+
+## The instantaneous evolution thought experiment
+
+Imagine evolution, but it runs at a single instant. One frozen snapshot of reality. No temporal variation. No changing seasons. No predator-prey arms races. No shifting environments. The entire dataset is one frame.
+
+What kind of intelligent solution would this produce?
+
+It wouldn't need memory. Memory is a hack for handling the fact that reality changes. Gone. It wouldn't need prediction. Prediction is compression of temporal regularity. Irrelevant. It wouldn't need adaptation, learning, or plasticity. All of those are responses to non-stationarity in the data.
+
+What's left is a perfect structural mirror of that instant. Every spatial relationship, every compositional hierarchy, every scale of organization captured exactly. Not approximately, not as a useful generalization. Exactly. Because there's no variation to generalize across. You can overfit completely because there's only one data point and it never changes.
+
+But even a single instant has enormous depth. Atoms composing molecules composing structures composing systems. Multi-scale organization exists spatially, not just temporally. So the solution still has hierarchy. Still has abstraction across scale. It just doesn't have flexibility.
+
+It would be a crystal. Maximally ordered. Perfectly fitted. Completely rigid. Intelligence without time is a frozen map of everything, at every scale, right now.
+
+<Emphasis>That's what LLMs are. Trained on a frozen corpus. Frozen weights at deployment. Every regularity mapped at high resolution. The crystal.</Emphasis>
+
+Which makes you realize: everything we call "intelligence" is actually just the machinery for handling the fact that reality won't sit still.
+
+## Three stages, not two
+
+Evolution didn't produce a crystal. It ran against a constantly changing reality and produced something far more interesting. The difference isn't about optimization or scale. It's about stages.
+
+> **Stage 1: Evolution produces the genome.** A search over deep time that finds compressed structural biases. The output is small relative to the search space. 3 billion base pairs. This is pretraining. Backprop searches weight space and compresses what it finds into parameters.
+
+> **Stage 2: The genome produces the brain.** This is development. The genome doesn't specify every synapse. It specifies wiring rules, density patterns, connectivity principles. Over roughly five years, these rules interact with sensory experience to build a cognitive architecture. Infant amnesia covers this phase. And 99% of five-year-olds have the same cognitive machinery regardless of whether they were born in a Pacific island jungle in 3000 BC or San Francisco in 2025. Same object permanence. Same causal reasoning. Same theory of mind. Different knowledge. Same architecture.
+
+> **Stage 3: The brain learns.** The architecture that development built now acquires knowledge and skill. This runs on 20 watts. It's sample efficient. It resists catastrophic forgetting. It can invent things no training example demonstrated.
+
+<Emphasis>Current AI does Stage 1 and jumps straight to Stage 3. We pretrain (evolution), then fine-tune and deploy (try to make it learn and reason). We completely skip Stage 2.</Emphasis>
+
+## The six questions
+
+To properly compare evolution and backprop without borrowing mechanics from either, you need mechanistically neutral questions. The same questions asked of both processes, in vocabulary that doesn't belong to either domain.
+
+**What is the search space?** Evolution explores a combinatorial space of physical structures. The space is discrete, astronomically large, and has no fixed dimensionality. New dimensions get created as the search proceeds. An eye doesn't exist in the search space until the components that make an eye possible have already been found. Backprop explores a continuous, fixed-dimensional space of real-valued parameters. The dimensionality is set before search begins. No new dimensions appear.
+
+**What is the signal?** Evolution gets a single bit, delayed. You reproduced or you didn't. Noisy, sparse, deeply entangled. Backprop gets a dense, immediate gradient. For every parameter, a direction and magnitude. Absurdly rich by comparison. But backprop's signal is narrower in scope. Evolution's signal encodes survival against the totality of reality. The loss function is reality itself.
+
+**What is the relationship between the search and the data?** Evolution operates inside its own data distribution. Organisms are part of the environment other organisms adapt to. The search modifies what it's searching over. Predators make prey faster. Prey make predators smarter. The landscape moves because you're walking on it. Backprop operates outside its data. The training set doesn't change because the model got better.
+
+**What persists between steps?** Evolution carries forward entire organisms. Working, integrated, viable solutions. Every intermediate step must be a functioning system. You can't have half a heart. Backprop carries forward a weight vector. Intermediate checkpoints don't need to be coherent. This forces evolution toward compositionality and modularity. Things need to work together at every step.
+
+**What is the scope of a single step?** Evolution makes small, mostly random perturbations. Occasionally large jumps. But the typical step is local and blind. Backprop makes coordinated, global updates to all parameters simultaneously. Every weight moves in a direction informed by the gradient.
+
+**What is the nature of the intelligence created, and how does it persist?** Evolution produced layers. At the bottom, hardcoded reflexes. Above that, nervous systems that learn within a lifetime. Above that, culture that persists across organisms. The search produced a hierarchy of rigidity and flexibility. Backprop produces one layer. The crystal. Frozen weights that encode every regularity found during search.
+
+<Emphasis>Evolution's deepest trick wasn't finding good solutions. It was finding solutions that themselves search. The search created more search. Backprop hasn't done this.</Emphasis>
+
+## The energy constraint
+
+A datacenter running an LLM: 100 megawatts. A human brain: 20 watts. The brain is not a small thing. It has 86 billion neurons and trillions of synapses. Roughly the same order of magnitude as a large language model's parameters.
+
+So the energy gap isn't about the size of the structure. Both are massive. Both need trillions of connections to represent reality. The gap is in the access pattern.
+
+The crystal is read densely. Every token flows through every weight. The whole map, every time. The brain runs sparse activation. At any instant, a tiny fraction of neurons are firing. The search process at inference time is selecting a small dynamic subnetwork from an enormous substrate.
+
+Same warehouse. One strategy turns on every light every time someone asks a question. The other has a flashlight and knows where to point it.
+
+The 20-watt brain doesn't know less than the 100-megawatt model. It stores less actively. It compensates by searching in real time: perceive, attend, reason, imagine, retrieve, compose. All search operations running on minimal power because they operate on live data streaming in, not on a massive static index.
+
+<Emphasis>If your model still needs 100 megawatts, it's still a crystal. The wattage is the test.</Emphasis>
+
+## The genome is not compact, but what it builds is efficient
+
+An early version of this argument confused me. I was claiming the brain is a "compact search program" versus the LLM as a "massive map." But the brain has trillions of synapses. Same scale as an LLM. It's not compact at all.
+
+The correction: the parameter count is the same because both need a large structure. Reality is complex. What changes is not storage but access. The genome specifies the structure. Development builds it. And the built structure runs sparse, dynamic, context-dependent activation. The genome didn't make a small thing. It made a large thing that knows how to use itself efficiently.
+
+## What distillation tells us
+
+A trillion-parameter model's knowledge transfers into a model orders of magnitude smaller with surprisingly little loss. The actual information content of pretraining is vastly smaller than the parameter count that found it. The large model isn't large because the knowledge is large. It's large because the search needed that workspace. The knowledge itself is compressible.
+
+That's the genomic bottleneck. Evolution explored a space of all possible organisms. The result that persists? 3 billion base pairs. The ratio of search workspace to compressed output is absurd. And the compressed version isn't a degraded copy. It's the point.
+
+Distillation is us accidentally performing the compression step without understanding what we're compressing. We deploy the student as a smaller crystal. Biology deploys the genome as a developmental program. Same compression. Completely different decompression.
+
+## What DNA actually does
+
+DNA doesn't compute. DNA doesn't see, hear, or think. DNA builds a machine that computes. The machine is a different physical structure from the genome. It has its own parameters (synaptic weights) that are not the genome's parameters. The genome specifies the architecture, the wiring rules, the initial conditions. Then the machine learns on its own, in its own weights, which the genome never touches again.
+
+Cortical Labs grew neurons in a petri dish and taught them to play Pong. The cells are the genome's output. Computational units that learn. The genome itself doesn't play Pong. It builds things that play Pong.
+
+Current ML has nothing like this. We have one set of weights. We train them, deploy them, maybe fine-tune them. There is no second structure. The "genome" and the "brain" are the same object.
+
+<Emphasis>We're trying to make the genome reason, instead of using the genome to build something that reasons.</Emphasis>
+
+## The planet and the continent
+
+The genome is not universal across all possible realities. It's universal across all life on this planet. Change the planet (different chemistry, different physics) and you get a different genome. The genome is shaped by the interaction between the search process and the environment it operates in.
+
+For a transformer, the "planet" is the architecture. The attention mechanism, the MLP structure, the residual connections, the layer norms, the specific way information flows through a stack of these blocks. That's fixed. That's the physics.
+
+The data is the "continent." Language is one continent. Code is another. Vision is another. Different species evolve on different continents, and they look different. But they all share the same DNA machinery, the same cellular structure, the same basic metabolic processes. Because those were shaped by the physics, not the geography.
+
+So the prediction isn't that structural information from different training data is identical. The prediction is that it shares a common core shaped by the architecture, and differs at the margins shaped by the specific data. The core is where computation must concentrate in any transformer regardless of task, because of how attention and MLPs interact with residual streams.
+
+## Permutation symmetry and why topology matters
+
+Neural networks have permutation symmetry. Neuron 47 in layer 3 has no intrinsic identity. Swap it with neuron 200, swap all incoming and outgoing weights accordingly, and the network computes exactly the same function. The numbering is arbitrary.
+
+This means any structural information tied to specific neuron addresses should be meaningless in a different coordinate system. A mask that says "the connection from neuron 47 to neuron 200 is important" only makes sense relative to what those neurons became during one specific training run.
+
+But here's the thing. At low sparsity, permutation symmetry is nearly intact. Almost every neuron can talk to almost every other neuron. You can swap freely. At high sparsity, each neuron has a very specific, sparse connectivity profile. Permutation symmetry is broken by the mask itself. You can no longer freely swap neurons because different neurons have different wiring.
+
+So a sparse mask doesn't just select connections. It imposes a topology. A graph structure. And graph structures have properties that are coordinate-invariant. Degree distribution. Clustering coefficient. Block structure. Hub-and-spoke versus uniform connectivity. These are properties of the graph as a whole. They survive renaming every node.
+
+<Emphasis>At low sparsity, pattern doesn't matter because everything is connected. At high sparsity, pattern becomes everything because topology is the only thing that distinguishes one sparse network from another.</Emphasis>
+
+## Reading the genome at the wrong level
+
+Magnitude-based pruning asks: which individual weight entries are large? That's looking at a matrix element by element. One number in isolation. But a weight matrix is a transformation. It has structure that lives in the relationships between weights.
+
+A matrix can be decomposed (via SVD) into its principal directions. The directions along which the transformation does real work. A direction with a large singular value is a direction where the transformation is active. A direction with a tiny singular value is a direction where it does almost nothing.
+
+Instead of asking "which individual weights are big," you can ask "which directions does this matrix use?" This is looking at the matrix as a whole. The structural information isn't in any single entry. It's in the geometry of the transformation.
+
+Magnitude-based extraction is like reading DNA by weighing nucleotides. You'd learn something crude. But the actual information is in the sequence, the pattern, the relationships. SVD reads the relationships.
+
+## What the genome makes possible
+
+The deepest prediction of this framework isn't about speed. It's about reachability.
+
+If structural information just helps you learn faster, then a system without it would eventually catch up given enough time. The structure is a shortcut. Useful but not fundamental.
+
+But if the structure defines which directions computation can move in under resource constraints, then wrong directions mean some solutions are permanently inaccessible. Not slow to reach. Unreachable. No amount of training closes the gap.
+
+The genome doesn't make brains learn faster. It makes certain kinds of learning possible that would otherwise be impossible in a resource-constrained system. A randomly wired neural mass of the same size, given unlimited experience, would never develop the same cognitive capabilities. The wiring is what makes the capability space reachable.
+
+<Emphasis>The question isn't whether structure helps. It's whether structure defines what's achievable.</Emphasis>
+
+## What evolution has that backprop doesn't: two stages of search
+
+Evolution is not one process. It's two.
+
+Stage one: blind variation. Random mutation. Not directed, not "smart." Noise.
+
+Stage two: selection. Keep what works, discard what doesn't.
+
+Neither stage works alone. Blind variation alone is noise. Selection alone converges to local optima.
+
+Current AI is all selection, zero variation. When a model proposes an experiment or generates an idea, it's not generating blind variation. It's retrieving ideas that "make sense" from its training distribution. That's why every instance of Claude running Karpathy's autoresearch converges to the same playbook. 462 experiments across the community. All HP tuning. Zero architectural invention. They're all drawing from the same distribution of "sensible" ideas.
+
+The AI has no mechanism for generating something it hasn't seen. Something that doesn't "make sense" yet. Something genuinely random that selection can then filter.
+
+## Predictions this framework makes
+
+If this line of reasoning is correct, several things follow.
+
+**Scaling laws are explained and bounded.** More parameters, more data means you're making the genome higher resolution. Finer-grained biases. But there's a ceiling. The human genome is 3 billion base pairs. It stopped growing. What scaled was what the genome builds.
+
+**Sample efficiency stays terrible under the current paradigm.** If the weights are the genome and we never run Stage 2, then every new task requires retraining or massive in-context prompting. A child learns to catch a ball in 50 tries. An LLM needs millions of examples because it's trying to do with the genome what should be done by the thing the genome builds.
+
+**In-context learning is the genome expressing itself, not learning.** The forward pass reads the genome linearly and produces behavior that mimics flexibility. But nothing persists. No new structure is built. It's DNA being read, not a brain being used.
+
+**RLHF is cosmetic surgery on the genome.** It tweaks the biases so the crystal's surface looks more aligned. It's not structural. That's why alignment is fragile.
+
+**The energy gap is a prediction, not just an observation.** If someone builds Stage 2, if they find a process that takes pretrained weights and builds a sparse, task-specific, dynamically activated cognitive architecture from them, the energy cost should drop by orders of magnitude. The wattage is the proof that you've left Stage 1.
+
+**The autoresearch result is predicted exactly.** Current AI can't do novel research because it has a genome but no cognitive architecture built from that genome. It can express its biases (HP tuning, pattern matching over known techniques) but it can't build new cognitive machinery to think about the problem differently.
+
+## What I don't know
+
+I don't know what Stage 2 is. I don't know how to build it. I don't know if the structural information I've found in pretrained models is actually the right kind of information to serve as a genome. I don't know if the analogy to biological development is deep or superficial. I don't know if the boundary between "good initialization" and "developmental blueprint" is even a meaningful distinction computationally.
+
+I have a strong prior toward this framing that I can't fully separate from confirmation bias. Multiple startup failures have made me distrust my own certainty. But six independent lines of evidence (energy gap, sample efficiency, autoresearch convergence, infant universality, distillation compression, and the structural information experiments) all resolve under one explanation. That's either a real insight or the most seductive confirmation bias I've ever experienced.
+
+This document exists so I can be honest about which parts are solid, which are speculative, and which are wishful thinking. I'll keep updating it.
