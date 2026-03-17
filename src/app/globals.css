@@ -150,6 +150,37 @@ html {
   margin: 2rem 0;
 }
 
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.prose th {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border-bottom: 2px solid var(--border);
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.prose td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border-light, var(--border));
+  color: var(--text-secondary);
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody tr:hover {
+  background: var(--bg-secondary);
+}
+
 /* Code blocks — styled by rehype-pretty-code */
 .prose pre {
   background: var(--code-bg);
@@ -159,6 +190,7 @@ html {
   margin: 1.5rem 0;
   font-size: 0.9rem;
   line-height: 1.6;
+  color: #E3E1DC;
 }
 
 .prose code {
@@ -181,7 +213,6 @@ html {
   --color-fg-default: var(--text) !important;
   --color-border-default: var(--border) !important;
   --color-neutral-muted: var(--bg-secondary) !important;
-  font-family: var(--font-body), Georgia, serif !important;
   border: none !important;
 }
 
@@ -204,13 +235,6 @@ html {
 
 .w-md-editor-content {
   background: var(--bg) !important;
-}
-
-.w-md-editor-text-pre,
-.w-md-editor-text-input,
-.w-md-editor-text {
-  font-size: 15px !important;
-  line-height: 1.7 !important;
 }
 
 /* Subtle grain overlay */

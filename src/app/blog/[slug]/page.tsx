@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { compileMDX } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
 import { getAllPosts, getPostBySlug } from "@/lib/content";
 import { mdxComponents } from "@/components/MDXComponents";
@@ -55,6 +56,7 @@ export default async function BlogPost({
     components: mdxComponents,
     options: {
       mdxOptions: {
+        remarkPlugins: [remarkGfm],
         rehypePlugins: [
           [
             rehypePrettyCode,

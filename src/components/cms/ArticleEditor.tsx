@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useTransition } from "react";
+import { useState, useEffect, useCallback, useTransition, useRef } from "react";
 import dynamic from "next/dynamic";
 import {
   ArticleFrontmatterForm,
@@ -90,7 +90,7 @@ export function ContentEditor(props: EditorProps) {
     "idle" | "saving" | "saved" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const [isDirty, setIsDirty] = useState(false);
+  const isDirtyRef = useRef(false);
 
   const isEditing = !!initialSlug;
 
@@ -104,20 +104,16 @@ export function ContentEditor(props: EditorProps) {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Track dirty state
+  // beforeunload warning — uses a persistent listener that checks the ref
   useEffect(() => {
-    setIsDirty(true);
-  }, [articleFm, projectFm, content, slug]);
-
-  // beforeunload warning
-  useEffect(() => {
-    if (!isDirty) return;
     const handler = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
+      if (isDirtyRef.current) {
+        e.preventDefault();
+      }
     };
     window.addEventListener("beforeunload", handler);
     return () => window.removeEventListener("beforeunload", handler);
-  }, [isDirty]);
+  }, []);
 
   const handleSave = useCallback(
     (publish?: boolean) => {
@@ -150,7 +146,7 @@ export function ContentEditor(props: EditorProps) {
 
         if (result.success) {
           setStatus("saved");
-          setIsDirty(false);
+          isDirtyRef.current = false;
           if (result.sha) setSha(result.sha);
           if (type === "article" && publish !== undefined) {
             setArticleFm((prev) => ({ ...prev, published: publish }));
@@ -195,16 +191,16 @@ export function ContentEditor(props: EditorProps) {
             frontmatter={articleFm}
             slug={slug}
             isEditing={isEditing}
-            onChange={setArticleFm}
-            onSlugChange={setSlug}
+            onChange={(fm) => { setArticleFm(fm); isDirtyRef.current = true; }}
+            onSlugChange={(s) => { setSlug(s); isDirtyRef.current = true; }}
           />
         ) : (
           <ProjectFrontmatterForm
             frontmatter={projectFm}
             slug={slug}
             isEditing={isEditing}
-            onChange={setProjectFm}
-            onSlugChange={setSlug}
+            onChange={(fm) => { setProjectFm(fm); isDirtyRef.current = true; }}
+            onSlugChange={(s) => { setSlug(s); isDirtyRef.current = true; }}
           />
         )}
       </div>
@@ -213,7 +209,10 @@ export function ContentEditor(props: EditorProps) {
       <div className="border border-border rounded-lg overflow-hidden mb-4 sm:mb-6" data-color-mode="light">
         <MDEditor
           value={content}
-          onChange={(val) => setContent(val ?? "")}
+          onChange={(val) => {
+            setContent(val ?? "");
+            isDirtyRef.current = true;
+          }}
           height={isMobile ? 350 : 500}
           preview={isMobile ? "edit" : "live"}
           visibleDragbar={false}

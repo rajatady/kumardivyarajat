@@ -9,6 +9,10 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   const projects = getAllProjects();
+  const sorted = [
+    ...projects.filter((p) => p.frontmatter.featured),
+    ...projects.filter((p) => !p.frontmatter.featured),
+  ];
 
   return (
     <div className="mx-auto max-w-4xl px-6 pt-16 pb-12">
@@ -22,7 +26,7 @@ export default function ProjectsPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {projects.map((project) => (
+        {sorted.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
