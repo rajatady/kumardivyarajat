@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getContentItem } from "@/lib/github";
 import { ContentEditor } from "@/components/cms/ArticleEditor";
@@ -26,9 +27,18 @@ export default async function EditArticlePage({
 
   return (
     <div className="max-w-5xl mx-auto">
-      <h1 className="font-headline text-2xl font-medium tracking-tight text-text mb-6">
-        Edit Article
-      </h1>
+      <div className="flex items-center gap-3 mb-6">
+        <Link
+          href="/cms"
+          className="font-ui text-sm text-text-muted hover:text-text transition-colors"
+          aria-label="Back to dashboard"
+        >
+          &larr;
+        </Link>
+        <h1 className="font-headline text-2xl font-medium tracking-tight text-text">
+          Edit Article
+        </h1>
+      </div>
       <ContentEditor
         type="article"
         initialFrontmatter={frontmatter}

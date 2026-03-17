@@ -1,12 +1,22 @@
+import Link from "next/link";
 import { ContentEditor } from "@/components/cms/ArticleEditor";
 import { saveProject } from "@/app/cms/actions";
 
 export default function NewProjectPage() {
   return (
     <div className="max-w-5xl mx-auto">
-      <h1 className="font-headline text-2xl font-medium tracking-tight text-text mb-6">
-        New Project
-      </h1>
+      <div className="flex items-center gap-3 mb-6">
+        <Link
+          href="/cms"
+          className="font-ui text-sm text-text-muted hover:text-text transition-colors"
+          aria-label="Back to dashboard"
+        >
+          &larr;
+        </Link>
+        <h1 className="font-headline text-2xl font-medium tracking-tight text-text">
+          New Project
+        </h1>
+      </div>
       <ContentEditor type="project" saveAction={saveProject} />
     </div>
   );
