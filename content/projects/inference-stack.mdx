@@ -11,8 +11,6 @@ tags:
   - hugging-face
 featured: true
 ---
-# Inference Stack
-
 A production-grade LLM inference API built from scratch in TypeScript/NestJS + Python, running against real GPUs. Built as a learning exercise to understand the same class of problems that OpenAI, Anthropic, and Google solve: GPU resource scheduling, KV cache-aware routing, streaming, dynamic batching, tensor parallelism, and multi-modal inference.
 
 **This is not a wrapper around vLLM or TGI.** Every layer is built from raw `transformers` + `grpcio` to understand what happens under the hood.
