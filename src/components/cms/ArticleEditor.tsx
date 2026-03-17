@@ -9,6 +9,7 @@ import {
   type ProjectFrontmatter,
 } from "./FrontmatterForm";
 import { PublishBanner } from "./PublishBanner";
+import { ImageUpload } from "./ImageUpload";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -204,6 +205,14 @@ export function ContentEditor(props: EditorProps) {
           />
         )}
       </div>
+
+      {/* Image upload */}
+      <ImageUpload
+        onUpload={(url) => {
+          setContent((prev) => prev + `\n![image](${url})\n`);
+          isDirtyRef.current = true;
+        }}
+      />
 
       {/* Editor */}
       <div className="border border-border rounded-lg overflow-hidden mb-4 sm:mb-6" data-color-mode="light">
