@@ -1,0 +1,36 @@
+---
+title: Rendero
+description: >-
+  Figma-compatible Rust/WASM canvas engine. 134M-point rendering, built-in CRDT
+  collaboration, native .fig import — one binary, zero JS dependencies.
+url: 'https://github.com/rajatady/Rendero'
+tags:
+  - rust
+featured: false
+---
+# Rendero
+
+A Rust/WASM 2D rendering engine with a built-in scene graph, spatial indexing, and CRDT collaboration — designed for building infinite canvas applications in the browser.
+
+**[Live Demo](https://rajatady.github.io/Rendero/)** · [Earthquake Explorer](https://rajatady.github.io/Rendero/demos/earthquake-explorer/) · [Design Tool](https://rajatady.github.io/Rendero/demos/design-tool/) · [Gaussian Splats](https://rajatady.github.io/Rendero/demos/splat-viewer/) · [Genome Browser](https://rajatady.github.io/Rendero/demos/genome-browser/) · [Neural Net](https://rajatady.github.io/Rendero/demos/neural-net/)
+
+## Performance
+
+| Scene | FPS | Render Path |
+|-------|-----|-------------|
+| 2M interactive nodes | 127 | Canvas2D scene graph |
+| 134M points ([Neural Net demo](https://rajatady.github.io/Rendero/demos/neural-net/)) | 120 | WebGL2 GPU point cloud |
+
+Every node in the scene graph is selectable, draggable, and undo-able. GPU point clouds are a separate view-only path for massive datasets.
+
+Spatial hash grid for O(1) viewport culling. Hierarchical LOD. Sub-pixel auto-cull.
+
+## Features
+
+- **Dual rendering** — Canvas2D for crisp text/vectors, WebGL2 for millions of points. Both run simultaneously with synced cameras.
+- **Scene graph** — Arena-based tree with hit testing, selection, grouping, undo/redo.
+- **Batch APIs** — Bulk insertion that bypasses per-node CRDT/undo overhead. 500K nodes in under a second.
+- **GPU point clouds** — Separate render path for view-only massive datasets. Spatial chunking with automatic LOD (full → 1:16 → 1:256).
+- **CRDT** — Lamport timestamp-based conflict resolution for real-time collaboration.
+- **Figma import** — Native `.fig` file parsing.
+- **Zero JS dependencies** — One WASM binary, vanilla JS on top.
