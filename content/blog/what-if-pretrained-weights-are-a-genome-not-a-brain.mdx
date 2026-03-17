@@ -59,6 +59,10 @@ Both models were trained on FineWeb-Edu for 500 steps. Same data, same optimizer
 
 I ran this at every sparsity level from 10% to 90%.
 
+###### **Skeleton value scales exponentially with sparsity**
+
+![image](https://xqajxza5bt4r8kvb.public.blob.vercel-storage.com/sparsity_sweep-NXsw4gFekrywaINlXBrsfVNk14AI0F.png)
+
 At 10% sparsity (barely any weights removed), both patterns perform identically. At 30%, still no difference. At 50%, a faint hint. At 75%, a clear gap. At 90%, an enormous gap.
 
 The pattern's value scales exponentially with sparsity. When you have plenty of connections, it doesn't matter where you put them. When resources are scarce, knowing where to allocate them becomes everything.
@@ -83,6 +87,10 @@ Here's where it got interesting. I tried the same magnitude-based skeleton exper
 
 For a while I thought the whole thing was architecture-specific or coincidental. But then I thought about what magnitude actually measures. When you pick the largest weights, you're looking at individual entries. One number in a matrix, in isolation. But a weight matrix is a transformation. It has structure that lives in the relationships between weights, not in any single weight.
 
+###### SVD recovers structural signal where magnitude fails
+
+![image](https://xqajxza5bt4r8kvb.public.blob.vercel-storage.com/svd_vs_magnitude-Uqsv3dhEEnnUuk5IvjuxVP5ULaWEt7.png)
+
 SVD (Singular Value Decomposition) decomposes a matrix into its principal directions. The directions along which the transformation does real work. Instead of asking "which individual weights are large," SVD asks "which directions does this matrix use?"
 
 I extracted the top 10% of singular directions from each model and used those to initialize fresh random models (random magnitudes, but constrained to the pretrained subspace).
@@ -98,6 +106,10 @@ The structural information is in the subspace geometry, not in individual weight
 This is the experiment I'm most confident about.
 
 I took four Pythia-160M models trained by EleutherAI. Same architecture. Same training data (the Pile). Same training order. Different random seeds. Four completely independent training runs that started from different random points and ended at different weight matrices.
+
+###### Four seeds, one geometry (functional convergence)
+
+![image](https://xqajxza5bt4r8kvb.public.blob.vercel-storage.com/convergence-YYwUnD3L3X5tLAIt7JdtpWyNjWOgFq.png)
 
 I extracted SVD axes (top 10% singular directions) from each. Gave each set of axes to a fresh model with random magnitudes. Trained all four on FineWeb-Edu for 200 steps. Also trained a random-axes baseline and a dense (unconstrained) baseline.
 
@@ -123,6 +135,10 @@ And notice: 10% subspace beats 100% dense. A model that can only move in the dir
 ## The permanent gap
 
 I trained the Pythia models to convergence (~40K steps). Dense eventually overtakes the 10% pretrained subspace, which is expected since it has 10x the capacity. But random 10% never catches pretrained 10%. Even with unlimited training, the gap between pretrained and random subspace does not close.
+
+###### The permanent gap: random subspace never catches up
+
+![image](https://xqajxza5bt4r8kvb.public.blob.vercel-storage.com/permanent_gap%20%281%29-UvnuUd8fAuuUZj87IVyiZLA1FES6y3.png)
 
 This is the result that matters most.
 
@@ -173,3 +189,4 @@ I don't know. The boundary conditions I haven't tested include: whether the conv
 If you see a flaw in the experiments or the reasoning, I genuinely want to hear it. I'm one person running these on a single GPU and I know my bias toward this framing is strong. The experiments are designed to test the framing, not confirm it. Several of them returned null or negative results and I've reported all of them.
 
 All code is available at [repo link]. All raw results including the failures are in the results log.
+
