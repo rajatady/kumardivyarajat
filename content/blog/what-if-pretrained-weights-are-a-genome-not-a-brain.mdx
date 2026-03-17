@@ -81,7 +81,7 @@ If the skeleton encodes language-specific structure, it should only help on lang
 
 I took the language skeleton from SmolLM2-135M and tested it on CIFAR-10 image classification. Same architecture, but the input embedding and output head are swapped for vision (pixel patches in, class labels out). The transformer body and its skeleton are unchanged.
 
-Three seeds: 42, 123, 7. The language skeleton won on all three. Mean accuracy gap: +2.5%. Small but consistent. Never flipped sign.
+Three seeds: 42, 123, 7. The language skeleton won on all three. Mean accuracy gap: +2.5%. Small but consistent. Never flipped sign across seeds.
 
 At 1.7B scale (SmolLM2-1.7B), the vision gap actually grew to +3.2%. Larger models encode more universal structural information.
 
