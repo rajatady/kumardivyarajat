@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 export interface ArticleFrontmatter {
   title: string;
   description: string;
@@ -30,6 +32,16 @@ function TagsInput({
   value: string[];
   onChange: (tags: string[]) => void;
 }) {
+  const [raw, setRaw] = useState(value.join(", "));
+  const [focused, setFocused] = useState(false);
+
+  // Sync from parent when not focused (e.g. initial load)
+  useEffect(() => {
+    if (!focused) {
+      setRaw(value.join(", "));
+    }
+  }, [value, focused]);
+
   return (
     <div>
       <label className="font-ui text-xs font-medium uppercase tracking-widest text-text-muted block mb-1.5">
@@ -37,15 +49,18 @@ function TagsInput({
       </label>
       <input
         type="text"
-        value={value.join(", ")}
-        onChange={(e) =>
-          onChange(
-            e.target.value
-              .split(",")
-              .map((t) => t.trim())
-              .filter(Boolean)
-          )
-        }
+        value={raw}
+        onChange={(e) => setRaw(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => {
+          setFocused(false);
+          const tags = raw
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean);
+          onChange(tags);
+          setRaw(tags.join(", "));
+        }}
         placeholder="react-native, typescript, design"
         className="w-full px-3 py-2 rounded border border-border bg-bg text-text font-ui text-sm focus:border-accent focus:outline-none transition-colors"
       />

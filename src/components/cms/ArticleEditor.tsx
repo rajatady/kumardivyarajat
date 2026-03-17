@@ -94,6 +94,16 @@ export function ContentEditor(props: EditorProps) {
 
   const isEditing = !!initialSlug;
 
+  // Detect mobile for single-instance editor
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   // Track dirty state
   useEffect(() => {
     setIsDirty(true);
@@ -201,25 +211,13 @@ export function ContentEditor(props: EditorProps) {
 
       {/* Editor */}
       <div className="border border-border rounded-lg overflow-hidden mb-4 sm:mb-6" data-color-mode="light">
-        {/* Show split preview on desktop, edit-only on mobile */}
-        <div className="hidden sm:block">
-          <MDEditor
-            value={content}
-            onChange={(val) => setContent(val ?? "")}
-            height={500}
-            preview="live"
-            visibleDragbar={false}
-          />
-        </div>
-        <div className="sm:hidden">
-          <MDEditor
-            value={content}
-            onChange={(val) => setContent(val ?? "")}
-            height={350}
-            preview="edit"
-            visibleDragbar={false}
-          />
-        </div>
+        <MDEditor
+          value={content}
+          onChange={(val) => setContent(val ?? "")}
+          height={isMobile ? 350 : 500}
+          preview={isMobile ? "edit" : "live"}
+          visibleDragbar={false}
+        />
       </div>
 
       {/* Actions */}
