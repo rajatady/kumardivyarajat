@@ -85,6 +85,15 @@ Three seeds: 42, 123, 7. The language skeleton won on all three. Mean accuracy g
 
 At 1.7B scale (SmolLM2-1.7B), the vision gap actually grew to +3.2%. Larger models encode more universal structural information.
 
+
+| Seed | Lang Skeleton | Rand Skeleton | Gap |
+|------|---------------|---------------|-----|
+| 42 | 53.1% | 50.8% | +2.4% |
+| 123 | 54.9% | 53.0% | +1.9% |
+| 7 | 55.5% | 52.3% | +3.1% |
+| **Mean** | **54.5%** | **52.0%** | **+2.5%** |
+
+
 ## Magnitude breaks. SVD doesn't.
 
 Here's where it got interesting. I tried the same magnitude-based skeleton experiment on Qwen 2.5-1.5B. It failed. The random skeleton actually won on language by 0.53 nats. Complete reversal.
