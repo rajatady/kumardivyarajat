@@ -59,7 +59,7 @@ Both models were trained on FineWeb-Edu for 500 steps. Same data, same optimizer
 
 I ran this at every sparsity level from 10% to 90%.
 
-###### **Skeleton value scales exponentially with sparsity**
+###### Skeleton value scales exponentially with sparsity
 
 ![image](https://xqajxza5bt4r8kvb.public.blob.vercel-storage.com/sparsity_sweep-NXsw4gFekrywaINlXBrsfVNk14AI0F.png)
 
@@ -128,9 +128,9 @@ Standard deviation across seeds: 0.03. Mean gap over random: 0.34. The ratio (st
 
 Four independent training runs found the same computational subspaces. The initialization doesn't matter. The architecture plus data forces the solution geometry. The specific weights differ. The directions don't.
 
-And notice: 10% subspace beats 100% dense. A model that can only move in the directions that training always finds outperforms a fully unconstrained model. Less is more, if you know where to look. And all four seeds know the same "where."
+And notice: 10% subspace beats 100% dense in early training. A model that can only move in the directions that training always finds outperforms a fully unconstrained model. Less is more, if you know where to look. And all four seeds know the same "where."
 
-<Emphasis>10% subspace beats 100% dense. Less is more, if you know where to look. And all four seeds know the same "where."</Emphasis>
+<Emphasis>10% subspace beats 100% dense in early training. Less is more, at least at the beggining if you know where to look. And all four seeds know the same "where."</Emphasis>
 
 ## The permanent gap
 
@@ -139,6 +139,10 @@ I trained the Pythia models to convergence (~40K steps). Dense eventually overta
 ###### The permanent gap: random subspace never catches up
 
 ![image](https://xqajxza5bt4r8kvb.public.blob.vercel-storage.com/permanent_gap%20%281%29-UvnuUd8fAuuUZj87IVyiZLA1FES6y3.png)
+
+###### Zoomed: the gap at convergence never closes
+
+![image](https://xqajxza5bt4r8kvb.public.blob.vercel-storage.com/permanent_gap_zoomed-I0f7SK0skOTxyPK7vreHATPdiWOPrb.png)
 
 This is the result that matters most.
 
