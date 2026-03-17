@@ -21,7 +21,7 @@ A production-grade LLM inference API built from scratch in TypeScript/NestJS + P
 
 ```
 Your laptop (NestJS gateway)          Remote GPU cluster (Python workers)
-┌──────────https://raw.githubusercontent.com/rajatady/Inference-Stack/main/docs/ui.png.githubusercontent.com/rajatady/Inference-Stack/main/docs/ui.png──────────┐           ┌──────────────────────────────┐
+┌─────────────────────────┐           ┌──────────────────────────────┐
 │  HTTP API (OpenAI-compat)│           │  GPU-0: worker-0 (gRPC)     │
 │  Scheduler + Batcher    │──gRPC────→│  GPU-1: worker-1 (gRPC)     │
 │  Router + Model Manager │           │  or: TP worker (2 GPUs)     │
