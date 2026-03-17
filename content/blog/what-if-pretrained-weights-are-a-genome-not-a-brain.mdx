@@ -1,8 +1,16 @@
 ---
 title: 'What if pretrained weights are a genome, not a brain?'
-description: ''
+description: >-
+  Experiments testing whether pretrained weights encode structural blueprints
+  rather than knowledge, and what that means for how we build AI.
 date: '2026-03-17'
-tags: []
+tags:
+  - evolution
+  - pretraining
+  - svd
+  - representation-learning
+  - experiments
+  - neural-networks
 published: false
 ---
 I've been running experiments for the past few weeks that started from a simple question and led somewhere I didn't expect. I want to share what I found, what it might mean, and where the gaps are. None of this is a claim. It's an observation with data behind it. I could be completely wrong.
@@ -17,6 +25,8 @@ The answer: a crystal. A perfect, dense, hierarchical map of that frozen instant
 
 And then it hit me. That's what LLMs are. Trained on a frozen corpus. Frozen weights at deployment. Every regularity mapped at high resolution. The crystal.
 
+<Emphasis>That's what LLMs are. Trained on a frozen corpus. Frozen weights at deployment. The crystal.</Emphasis>
+
 ## Three stages, not two
 
 This realization opens a bigger question. Evolution didn't just produce a crystal. It produced something far more interesting. And the difference isn't about optimization or scale. It's about stages.
@@ -30,6 +40,8 @@ This realization opens a bigger question. Evolution didn't just produce a crysta
 Current AI does Stage 1 and jumps straight to Stage 3. We pretrain (evolution), then fine-tune and deploy (try to make it learn and reason). We completely skip Stage 2. And maybe that's why we need 100 megawatts instead of 20.
 
 I don't know if this framing is correct. But I wanted to test whether Stage 1 actually produces something genome-like. Not the brain. Not the final intelligence. The blueprint.
+
+<Emphasis>Current AI does Stage 1 and jumps straight to Stage 3. We completely skip Stage 2. And maybe that's why we need 100 megawatts instead of 20.</Emphasis>
 
 ## The skeleton experiment
 
@@ -52,6 +64,8 @@ At 10% sparsity (barely any weights removed), both patterns perform identically.
 The pattern's value scales exponentially with sparsity. When you have plenty of connections, it doesn't matter where you put them. When resources are scarce, knowing where to allocate them becomes everything.
 
 This makes sense through the genome lens. The human genome's value is also exponential under resource constraints. Brains can't be fully connected. Bodies can't maintain infinite synapses. The genome is the answer to the question: when you can't afford everything, what do you build?
+
+<Emphasis>When resources are scarce, knowing where to allocate them becomes everything.</Emphasis>
 
 ### Cross-modal: language skeleton on vision
 
@@ -76,6 +90,8 @@ I extracted the top 10% of singular directions from each model and used those to
 The results across all four model families (SmolLM2-135M, SmolLM2-1.7B, Qwen 2.5-0.5B, Qwen 2.5-1.5B): every single one positive. SVD recovered signal where magnitude failed. On Qwen 1.5B specifically, the result flipped from -0.53 (magnitude) to +0.05 (SVD).
 
 The structural information is in the subspace geometry, not in individual weight magnitudes. Magnitude is a crude proxy that works on small models and breaks at scale. SVD reads the actual structure.
+
+<Emphasis>The structural information is in the subspace geometry, not in individual weight magnitudes.</Emphasis>
 
 ## The convergence result
 
@@ -102,6 +118,8 @@ Four independent training runs found the same computational subspaces. The initi
 
 And notice: 10% subspace beats 100% dense. A model that can only move in the directions that training always finds outperforms a fully unconstrained model. Less is more, if you know where to look. And all four seeds know the same "where."
 
+<Emphasis>10% subspace beats 100% dense. Less is more, if you know where to look. And all four seeds know the same "where."</Emphasis>
+
 ## The permanent gap
 
 I trained the Pythia models to convergence (~40K steps). Dense eventually overtakes the 10% pretrained subspace, which is expected since it has 10x the capacity. But random 10% never catches pretrained 10%. Even with unlimited training, the gap between pretrained and random subspace does not close.
@@ -111,6 +129,8 @@ This is the result that matters most.
 If pretrained subspace just helped learn faster, random would eventually catch up. It doesn't. The pretrained directions give access to a region of loss landscape that random directions cannot reach, regardless of how long you train. The subspace defines what solutions are reachable. Wrong directions mean some solutions are permanently inaccessible under resource constraints.
 
 The genome doesn't make brains learn faster. It makes certain kinds of learning possible that would otherwise be impossible in a resource-constrained system.
+
+<Emphasis>The genome doesn't make brains learn faster. It makes certain kinds of learning possible that would otherwise be impossible in a resource-constrained system.</Emphasis>
 
 ## What does this mean
 
@@ -127,6 +147,8 @@ What I think the data shows:
 4. Magnitude-based extraction works for small models but breaks at scale. SVD-based extraction works universally. The information lives in subspace geometry, not individual weight magnitudes.
 
 5. The structural information defines what is learnable under resource constraints. It doesn't just speed up learning. It makes some learning permanently possible that would otherwise be permanently impossible.
+
+<Emphasis>We're trying to make the genome reason, instead of using the genome to build something that reasons.</Emphasis>
 
 What I think this suggests but cannot yet prove:
 
