@@ -119,7 +119,7 @@ export function ArticleFrontmatterForm({
         />
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <label className="font-ui text-xs font-medium uppercase tracking-widest text-text-muted block mb-1.5">
             Date
@@ -220,7 +220,7 @@ export function ProjectFrontmatterForm({
         />
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <label className="font-ui text-xs font-medium uppercase tracking-widest text-text-muted block mb-1.5">
             URL

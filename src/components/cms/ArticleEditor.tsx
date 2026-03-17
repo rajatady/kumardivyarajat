@@ -176,7 +176,7 @@ export function ContentEditor(props: EditorProps) {
       )}
 
       {/* Frontmatter */}
-      <div className="border border-border rounded-lg p-6 mb-6 bg-bg">
+      <div className="border border-border rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 bg-bg">
         <h2 className="font-ui text-xs font-medium uppercase tracking-widest text-text-muted mb-4">
           Metadata
         </h2>
@@ -200,31 +200,43 @@ export function ContentEditor(props: EditorProps) {
       </div>
 
       {/* Editor */}
-      <div className="border border-border rounded-lg overflow-hidden mb-6" data-color-mode="light">
-        <MDEditor
-          value={content}
-          onChange={(val) => setContent(val ?? "")}
-          height={500}
-          preview="live"
-          visibleDragbar={false}
-        />
+      <div className="border border-border rounded-lg overflow-hidden mb-4 sm:mb-6" data-color-mode="light">
+        {/* Show split preview on desktop, edit-only on mobile */}
+        <div className="hidden sm:block">
+          <MDEditor
+            value={content}
+            onChange={(val) => setContent(val ?? "")}
+            height={500}
+            preview="live"
+            visibleDragbar={false}
+          />
+        </div>
+        <div className="sm:hidden">
+          <MDEditor
+            value={content}
+            onChange={(val) => setContent(val ?? "")}
+            height={350}
+            preview="edit"
+            visibleDragbar={false}
+          />
+        </div>
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 pb-4">
         {type === "article" && (
           <>
             <button
               onClick={() => handleSave(false)}
               disabled={isPending}
-              className="font-ui text-sm font-medium px-5 py-2.5 rounded border border-border text-text hover:border-accent hover:text-accent transition-colors disabled:opacity-50"
+              className="font-ui text-xs sm:text-sm font-medium px-4 sm:px-5 py-2.5 rounded border border-border text-text hover:border-accent hover:text-accent transition-colors disabled:opacity-50"
             >
               {isPending ? "Saving..." : "Save Draft"}
             </button>
             <button
               onClick={() => handleSave(true)}
               disabled={isPending}
-              className="font-ui text-sm font-medium px-5 py-2.5 rounded bg-accent text-white hover:bg-accent-hover transition-colors disabled:opacity-50"
+              className="font-ui text-xs sm:text-sm font-medium px-4 sm:px-5 py-2.5 rounded bg-accent text-white hover:bg-accent-hover transition-colors disabled:opacity-50"
             >
               {isPending ? "Publishing..." : "Publish"}
             </button>
@@ -234,7 +246,7 @@ export function ContentEditor(props: EditorProps) {
           <button
             onClick={() => handleSave()}
             disabled={isPending}
-            className="font-ui text-sm font-medium px-5 py-2.5 rounded bg-accent text-white hover:bg-accent-hover transition-colors disabled:opacity-50"
+            className="font-ui text-xs sm:text-sm font-medium px-4 sm:px-5 py-2.5 rounded bg-accent text-white hover:bg-accent-hover transition-colors disabled:opacity-50"
           >
             {isPending ? "Saving..." : "Save Project"}
           </button>

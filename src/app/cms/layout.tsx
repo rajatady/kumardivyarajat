@@ -56,7 +56,7 @@ export default async function CMSLayout({
   return (
     <div className="min-h-screen bg-bg">
       <CMSHeader onSignOut={handleSignOut} />
-      <div className="px-6 py-8">{children}</div>
+      <div className="px-4 sm:px-6 py-6 sm:py-8">{children}</div>
     </div>
   );
 }
