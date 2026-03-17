@@ -13,8 +13,6 @@ import { ImageUpload } from "./ImageUpload";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-type ContentType = "article" | "project";
-
 interface ArticleEditorProps {
   type: "article";
   initialFrontmatter?: ArticleFrontmatter;
@@ -61,6 +59,29 @@ const defaultProjectFrontmatter: ProjectFrontmatter = {
   featured: false,
 };
 
+// Upload a file to Vercel Blob and return the URL
+async function uploadImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch("/api/upload", { method: "POST", body: formData });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Upload failed");
+  return data.url;
+}
+
+// Open a file picker and return the selected file
+function pickFile(): Promise<File | null> {
+  return new Promise((resolve) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = () => resolve(input.files?.[0] ?? null);
+    // If the user cancels, resolve null after a delay
+    input.addEventListener("cancel", () => resolve(null));
+    input.click();
+  });
+}
+
 export function ContentEditor(props: EditorProps) {
   const {
     type,
@@ -91,7 +112,10 @@ export function ContentEditor(props: EditorProps) {
     "idle" | "saving" | "saved" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
   const isDirtyRef = useRef(false);
+  // Store cursor position so we can insert at the right place after upload
+  const cursorPosRef = useRef<number | null>(null);
 
   const isEditing = !!initialSlug;
 
@@ -105,7 +129,7 @@ export function ContentEditor(props: EditorProps) {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // beforeunload warning — uses a persistent listener that checks the ref
+  // beforeunload warning
   useEffect(() => {
     const handler = (e: BeforeUnloadEvent) => {
       if (isDirtyRef.current) {
@@ -115,6 +139,77 @@ export function ContentEditor(props: EditorProps) {
     window.addEventListener("beforeunload", handler);
     return () => window.removeEventListener("beforeunload", handler);
   }, []);
+
+  // Capture cursor position from the editor's textarea whenever it changes
+  const saveCursorPosition = useCallback(() => {
+    const textarea = document.querySelector(
+      ".w-md-editor-text-input"
+    ) as HTMLTextAreaElement | null;
+    if (textarea) {
+      cursorPosRef.current = textarea.selectionStart;
+    }
+  }, []);
+
+  // Insert image markdown at the saved cursor position
+  const insertImageAtCursor = useCallback(
+    (url: string) => {
+      const imageMarkdown = `![image](${url})`;
+      setContent((prev) => {
+        const pos = cursorPosRef.current;
+        if (pos !== null && pos >= 0 && pos <= prev.length) {
+          return (
+            prev.slice(0, pos) + imageMarkdown + prev.slice(pos)
+          );
+        }
+        // Fallback: append at end
+        return prev + "\n" + imageMarkdown + "\n";
+      });
+      isDirtyRef.current = true;
+    },
+    []
+  );
+
+  // Handle upload from the standalone button or toolbar
+  const handleUploadFlow = useCallback(async () => {
+    saveCursorPosition();
+    const file = await pickFile();
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const url = await uploadImage(file);
+      insertImageAtCursor(url);
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(
+        err instanceof Error ? err.message : "Image upload failed"
+      );
+    } finally {
+      setUploading(false);
+    }
+  }, [saveCursorPosition, insertImageAtCursor]);
+
+  // Override the editor's image toolbar command to use our upload flow
+  const commandsFilter = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (command: any) => {
+      if (command.name === "image") {
+        return {
+          ...command,
+          buttonProps: {
+            ...command.buttonProps,
+            "aria-label": "Upload image",
+            title: "Upload image",
+          },
+          execute: () => {
+            void handleUploadFlow();
+          },
+        };
+      }
+      return command;
+    },
+    [handleUploadFlow]
+  );
 
   const handleSave = useCallback(
     (publish?: boolean) => {
@@ -206,13 +301,8 @@ export function ContentEditor(props: EditorProps) {
         )}
       </div>
 
-      {/* Image upload */}
-      <ImageUpload
-        onUpload={(url) => {
-          setContent((prev) => prev + `\n![image](${url})\n`);
-          isDirtyRef.current = true;
-        }}
-      />
+      {/* Image upload button */}
+      <ImageUpload onUpload={handleUploadFlow} uploading={uploading} />
 
       {/* Editor */}
       <div className="border border-border rounded-lg overflow-hidden mb-4 sm:mb-6" data-color-mode="light">
@@ -225,6 +315,7 @@ export function ContentEditor(props: EditorProps) {
           height={isMobile ? 350 : 500}
           preview={isMobile ? "edit" : "live"}
           visibleDragbar={false}
+          commandsFilter={commandsFilter}
         />
       </div>
 

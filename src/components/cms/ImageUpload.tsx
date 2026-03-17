@@ -1,60 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
-
 export function ImageUpload({
   onUpload,
+  uploading,
 }: {
-  onUpload: (url: string) => void;
+  onUpload: () => void;
+  uploading: boolean;
 }) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState("");
-
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    setError("");
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Upload failed");
-        return;
-      }
-
-      onUpload(data.url);
-    } catch {
-      setError("Upload failed. Check your connection.");
-    } finally {
-      setUploading(false);
-      if (inputRef.current) inputRef.current.value = "";
-    }
-  }
-
   return (
     <div className="flex items-center gap-3 mb-4">
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        className="hidden"
-      />
       <button
         type="button"
-        onClick={() => inputRef.current?.click()}
+        onClick={onUpload}
         disabled={uploading}
         className="font-ui text-xs font-medium px-3 py-1.5 rounded border border-border text-text-muted hover:border-accent hover:text-accent transition-colors disabled:opacity-50 inline-flex items-center gap-1.5"
       >
@@ -101,9 +58,6 @@ export function ImageUpload({
           </>
         )}
       </button>
-      {error && (
-        <span className="font-ui text-xs text-red-600">{error}</span>
-      )}
     </div>
   );
 }
