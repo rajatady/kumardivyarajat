@@ -98,8 +98,8 @@ export default async function BlogPost({
       headline: post.frontmatter.title,
       description: post.frontmatter.description,
       image: ogImage,
-      datePublished: post.frontmatter.date,
-      dateModified: post.frontmatter.date,
+      datePublished: `${post.frontmatter.date}T00:00:00+05:30`,
+      dateModified: `${post.frontmatter.date}T00:00:00+05:30`,
       author: {
         "@type": "Person",
         name: "Kumar Divya Rajat",
