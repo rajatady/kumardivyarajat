@@ -1,6 +1,8 @@
 import RSS from "rss";
 import { getAllPosts } from "@/lib/content";
 
+export const revalidate = 3600; // revalidate every hour
+
 const SITE_URL = "https://kumardivyarajat.com";
 
 export async function GET() {
