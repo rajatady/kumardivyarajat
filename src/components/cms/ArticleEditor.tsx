@@ -19,6 +19,7 @@ interface ArticleEditorProps {
   initialContent?: string;
   initialSlug?: string;
   initialSha?: string;
+  availablePosts?: { slug: string; title: string }[];
   saveAction: (data: {
     slug: string;
     frontmatter: Record<string, unknown>;
@@ -48,6 +49,7 @@ const defaultArticleFrontmatter: ArticleFrontmatter = {
   description: "",
   date: new Date().toISOString().split("T")[0],
   tags: [],
+  relatedPosts: [],
   published: false,
 };
 
@@ -289,6 +291,7 @@ export function ContentEditor(props: EditorProps) {
             isEditing={isEditing}
             onChange={(fm) => { setArticleFm(fm); isDirtyRef.current = true; }}
             onSlugChange={(s) => { setSlug(s); isDirtyRef.current = true; }}
+            availablePosts={type === "article" && "availablePosts" in props ? props.availablePosts : undefined}
           />
         ) : (
           <ProjectFrontmatterForm

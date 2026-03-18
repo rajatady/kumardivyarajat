@@ -12,6 +12,7 @@ export interface PostFrontmatter {
   tags: string[];
   coverImage?: string;
   published: boolean;
+  relatedPosts?: string[];
 }
 
 export interface Post {
@@ -115,4 +116,49 @@ export function getAllProjects(): Project[] {
 
 export function getFeaturedProjects(): Project[] {
   return getAllProjects().filter((p) => p.frontmatter.featured);
+}
+
+export function getRelatedPosts(
+  currentSlug: string,
+  manualSlugs: string[],
+  limit: number = 3
+): Post[] {
+  const allPosts = getAllPosts();
+  const current = allPosts.find((p) => p.slug === currentSlug);
+  if (!current) return [];
+
+  const currentTags = current.frontmatter.tags || [];
+  const seen = new Set<string>([currentSlug]);
+  const result: Post[] = [];
+
+  // Manual picks first
+  for (const slug of manualSlugs) {
+    if (result.length >= limit) break;
+    const post = allPosts.find((p) => p.slug === slug);
+    if (post && !seen.has(slug)) {
+      result.push(post);
+      seen.add(slug);
+    }
+  }
+
+  // Auto-fill with tag-matched posts, scored by overlap
+  if (result.length < limit) {
+    const scored = allPosts
+      .filter((p) => !seen.has(p.slug))
+      .map((p) => {
+        const overlap = (p.frontmatter.tags || []).filter((t) =>
+          currentTags.includes(t)
+        ).length;
+        return { post: p, score: overlap };
+      })
+      .filter((s) => s.score > 0)
+      .sort((a, b) => b.score - a.score);
+
+    for (const { post } of scored) {
+      if (result.length >= limit) break;
+      result.push(post);
+    }
+  }
+
+  return result;
 }

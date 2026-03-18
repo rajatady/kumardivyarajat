@@ -3,7 +3,7 @@ import Link from "next/link";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
-import { getAllPosts, getPostBySlug } from "@/lib/content";
+import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/content";
 import { mdxComponents } from "@/components/MDXComponents";
 import type { Metadata } from "next";
 
@@ -83,24 +83,56 @@ export default async function BlogPost({
     },
   });
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.frontmatter.title,
-    description: post.frontmatter.description,
-    datePublished: post.frontmatter.date,
-    author: {
-      "@type": "Person",
-      name: "Kumar Divya Rajat",
-      url: "https://kumardivyarajat.com/about",
+  const relatedPosts = getRelatedPosts(
+    slug,
+    post.frontmatter.relatedPosts || [],
+    3
+  );
+
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: post.frontmatter.title,
+      description: post.frontmatter.description,
+      datePublished: post.frontmatter.date,
+      author: {
+        "@type": "Person",
+        name: "Kumar Divya Rajat",
+        url: "https://kumardivyarajat.com/about",
+      },
+      publisher: {
+        "@type": "Person",
+        name: "Kumar Divya Rajat",
+      },
+      url: `https://kumardivyarajat.com/blog/${slug}`,
+      keywords: post.frontmatter.tags,
     },
-    publisher: {
-      "@type": "Person",
-      name: "Kumar Divya Rajat",
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://kumardivyarajat.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blog",
+          item: "https://kumardivyarajat.com/blog",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: post.frontmatter.title,
+          item: `https://kumardivyarajat.com/blog/${slug}`,
+        },
+      ],
     },
-    url: `https://kumardivyarajat.com/blog/${slug}`,
-    keywords: post.frontmatter.tags,
-  };
+  ];
 
   return (
     <article className="mx-auto max-w-4xl px-6 pt-16 pb-20">
@@ -157,8 +189,40 @@ export default async function BlogPost({
         {content}
       </div>
 
-      {/* Footer divider */}
-      <div className="border-t border-border mt-16 pt-8">
+      {/* Related posts */}
+      {relatedPosts.length > 0 && (
+        <div className="mt-20 -mx-6 px-6 py-12 bg-bg-secondary/50 border-y border-border">
+          <div className="max-w-4xl mx-auto">
+            <p className="font-ui text-xs font-medium uppercase tracking-widest text-text-muted mb-6">
+              Keep reading
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {relatedPosts.map((related) => (
+                <Link
+                  key={related.slug}
+                  href={`/blog/${related.slug}`}
+                  className="group block bg-bg border border-border rounded-lg p-5 hover:border-accent/30 hover:shadow-sm transition-all"
+                >
+                  <p className="font-ui text-xs text-text-muted mb-2">
+                    {formatDate(related.frontmatter.date)}
+                    <span className="mx-1.5 text-border">·</span>
+                    {related.readingTime}
+                  </p>
+                  <h3 className="font-headline text-base font-medium text-text group-hover:text-accent transition-colors leading-snug mb-2">
+                    {related.frontmatter.title}
+                  </h3>
+                  <p className="text-sm text-text-secondary leading-relaxed line-clamp-2">
+                    {related.frontmatter.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Back link */}
+      <div className="border-t border-border mt-10 pt-8">
         <Link
           href="/blog"
           className="font-ui text-sm font-medium text-text-muted hover:text-accent transition-colors"

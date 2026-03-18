@@ -8,6 +8,7 @@ export interface ArticleFrontmatter {
   date: string;
   tags: string[];
   published: boolean;
+  relatedPosts: string[];
 }
 
 export interface ProjectFrontmatter {
@@ -77,12 +78,14 @@ export function ArticleFrontmatterForm({
   isEditing,
   onChange,
   onSlugChange,
+  availablePosts,
 }: {
   frontmatter: ArticleFrontmatter;
   slug: string;
   isEditing: boolean;
   onChange: (fm: ArticleFrontmatter) => void;
   onSlugChange: (slug: string) => void;
+  availablePosts?: { slug: string; title: string }[];
 }) {
   return (
     <div className="space-y-4">
@@ -168,6 +171,44 @@ export function ArticleFrontmatterForm({
         value={frontmatter.tags}
         onChange={(tags) => onChange({ ...frontmatter, tags })}
       />
+
+      {/* Related posts selector */}
+      {availablePosts && availablePosts.length > 0 && (
+        <div>
+          <label className="font-ui text-xs font-medium uppercase tracking-widest text-text-muted block mb-1.5">
+            Related Posts
+          </label>
+          <p className="font-ui text-xs text-text-muted mb-2">
+            Select manually. Unselected slots auto-fill by tag match.
+          </p>
+          <div className="space-y-1.5 max-h-40 overflow-y-auto border border-border rounded p-2">
+            {availablePosts
+              .filter((p) => p.slug !== slug)
+              .map((post) => (
+                <label
+                  key={post.slug}
+                  className="flex items-center gap-2 cursor-pointer py-0.5"
+                >
+                  <input
+                    type="checkbox"
+                    checked={frontmatter.relatedPosts?.includes(post.slug) ?? false}
+                    onChange={(e) => {
+                      const current = frontmatter.relatedPosts || [];
+                      const updated = e.target.checked
+                        ? [...current, post.slug]
+                        : current.filter((s) => s !== post.slug);
+                      onChange({ ...frontmatter, relatedPosts: updated });
+                    }}
+                    className="w-3.5 h-3.5 accent-accent"
+                  />
+                  <span className="font-ui text-sm text-text truncate">
+                    {post.title}
+                  </span>
+                </label>
+              ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

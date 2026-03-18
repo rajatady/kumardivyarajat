@@ -1,8 +1,18 @@
 import Link from "next/link";
+import { getContentList } from "@/lib/github";
 import { ContentEditor } from "@/components/cms/ArticleEditor";
 import { saveArticle } from "@/app/cms/actions";
 
-export default function NewArticlePage() {
+export const dynamic = "force-dynamic";
+
+export default async function NewArticlePage() {
+  const articles = await getContentList("blog");
+
+  const availablePosts = articles.map((a) => ({
+    slug: a.slug,
+    title: (a.frontmatter.title as string) || a.slug,
+  }));
+
   return (
     <div className="max-w-5xl mx-auto">
       <div className="flex items-center gap-3 mb-6">
@@ -17,7 +27,11 @@ export default function NewArticlePage() {
           New Article
         </h1>
       </div>
-      <ContentEditor type="article" saveAction={saveArticle} />
+      <ContentEditor
+        type="article"
+        availablePosts={availablePosts}
+        saveAction={saveArticle}
+      />
     </div>
   );
 }

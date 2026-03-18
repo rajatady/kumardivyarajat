@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getContentItem } from "@/lib/github";
+import { getContentItem, getContentList } from "@/lib/github";
 import { ContentEditor } from "@/components/cms/ArticleEditor";
 import { saveArticle } from "@/app/cms/actions";
 import type { ArticleFrontmatter } from "@/components/cms/FrontmatterForm";
@@ -13,7 +13,10 @@ export default async function EditArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = await getContentItem("blog", slug);
+  const [item, articles] = await Promise.all([
+    getContentItem("blog", slug),
+    getContentList("blog"),
+  ]);
 
   if (!item) notFound();
 
@@ -23,7 +26,13 @@ export default async function EditArticlePage({
     date: (item.frontmatter.date as string) ?? "",
     tags: (item.frontmatter.tags as string[]) ?? [],
     published: (item.frontmatter.published as boolean) ?? false,
+    relatedPosts: (item.frontmatter.relatedPosts as string[]) ?? [],
   };
+
+  const availablePosts = articles.map((a) => ({
+    slug: a.slug,
+    title: (a.frontmatter.title as string) || a.slug,
+  }));
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -45,6 +54,7 @@ export default async function EditArticlePage({
         initialContent={item.content}
         initialSlug={slug}
         initialSha={item.sha}
+        availablePosts={availablePosts}
         saveAction={saveArticle}
       />
     </div>
