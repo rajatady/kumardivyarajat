@@ -7,7 +7,7 @@ export default function NotFound() {
         404
       </p>
       <h1 className="font-headline text-5xl sm:text-6xl font-light tracking-tight text-text mb-6">
-        Page not <span className="italic text-accent">found</span>
+        Page not <span className="text-accent">found</span>
       </h1>
       <p className="text-text-secondary text-lg leading-relaxed max-w-md mx-auto mb-10">
         The page you&apos;re looking for doesn&apos;t exist, or it may have been moved.

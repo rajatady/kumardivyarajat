@@ -27,7 +27,7 @@ function Callout({
 function PullQuote({ children }: { children: React.ReactNode }) {
   return (
     <aside className="my-12 py-8 border-t border-b border-border">
-      <blockquote className="font-headline text-2xl font-light italic leading-relaxed text-text-secondary text-center max-w-xl mx-auto">
+      <blockquote className="font-body text-xl italic leading-relaxed text-text-secondary text-center max-w-xl mx-auto">
         {children}
       </blockquote>
     </aside>

@@ -9,7 +9,6 @@ const newsreader = Newsreader({
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "500"],
-  style: ["normal", "italic"],
 });
 
 const sourceSerif = Source_Serif_4({

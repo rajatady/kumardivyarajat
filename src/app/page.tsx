@@ -44,7 +44,7 @@ export default function Home() {
           <h1 className="font-headline text-5xl sm:text-6xl lg:text-7xl font-light leading-[1.1] tracking-tight text-text mb-6">
             Kumar Divya
             <br />
-            <span className="italic font-light text-accent">Rajat</span>
+            <span className="font-light text-accent">Rajat</span>
           </h1>
           <p className="text-lg text-text-secondary leading-relaxed max-w-lg">
             Building software, writing about the process, and sharing what I
