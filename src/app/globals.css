@@ -139,7 +139,7 @@ html {
 }
 
 .prose strong {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -195,7 +195,7 @@ html {
 
 .prose th {
   font-family: var(--font-ui);
-  font-weight: 600;
+  font-weight: 700;
   text-align: left;
   padding: 0.6rem 1rem;
   border-bottom: 2px solid var(--border);
