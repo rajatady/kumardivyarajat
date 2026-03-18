@@ -59,8 +59,27 @@ export default async function ProjectPage({
     },
   });
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: project.frontmatter.title,
+    description: project.frontmatter.description,
+    url: `https://kumardivyarajat.com/projects/${slug}`,
+    codeRepository: project.frontmatter.url || undefined,
+    author: {
+      "@type": "Person",
+      name: "Kumar Divya Rajat",
+      url: "https://kumardivyarajat.com",
+    },
+    image: `https://kumardivyarajat.com/og?title=${encodeURIComponent(project.frontmatter.title)}&description=${encodeURIComponent(project.frontmatter.description)}&type=project`,
+  };
+
   return (
     <article className="mx-auto max-w-4xl px-6 pt-16 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Link
         href="/projects"
         className="font-ui text-sm font-medium text-text-muted hover:text-accent transition-colors inline-flex items-center gap-1 mb-10"

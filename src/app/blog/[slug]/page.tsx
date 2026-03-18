@@ -89,21 +89,33 @@ export default async function BlogPost({
     3
   );
 
+  const ogImage = `https://kumardivyarajat.com/og?title=${encodeURIComponent(post.frontmatter.title)}&description=${encodeURIComponent(post.frontmatter.description)}&date=${encodeURIComponent(formatDate(post.frontmatter.date))}`;
+
   const jsonLd = [
     {
       "@context": "https://schema.org",
       "@type": "Article",
       headline: post.frontmatter.title,
       description: post.frontmatter.description,
+      image: ogImage,
       datePublished: post.frontmatter.date,
+      dateModified: post.frontmatter.date,
       author: {
         "@type": "Person",
         name: "Kumar Divya Rajat",
         url: "https://kumardivyarajat.com/about",
       },
       publisher: {
-        "@type": "Person",
+        "@type": "Organization",
         name: "Kumar Divya Rajat",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://kumardivyarajat.com/icon-512.png",
+        },
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `https://kumardivyarajat.com/blog/${slug}`,
       },
       url: `https://kumardivyarajat.com/blog/${slug}`,
       keywords: post.frontmatter.tags,
