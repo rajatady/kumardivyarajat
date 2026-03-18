@@ -59,10 +59,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/icon-512.png",
-        width: 512,
-        height: 512,
-        alt: "KDR",
+        url: "/og?title=Kumar%20Divya%20Rajat&description=Software%20engineer%20%26%20writer.%20Building%20things%2C%20writing%20about%20the%20process.",
+        width: 1200,
+        height: 630,
+        alt: "Kumar Divya Rajat",
       },
     ],
   },
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     title: "Kumar Divya Rajat",
     description:
       "Personal blog and portfolio. Writing about software engineering, design, and building things.",
-    images: ["/icon-512.png"],
+    images: ["/og?title=Kumar%20Divya%20Rajat&description=Software%20engineer%20%26%20writer.%20Building%20things%2C%20writing%20about%20the%20process."],
   },
   robots: {
     index: true,

@@ -8,6 +8,7 @@ import {
   type ContentType,
 } from "@/lib/github";
 import { revalidatePath } from "next/cache";
+import { submitToIndexNow } from "@/lib/indexnow";
 
 async function requireAuth() {
   const session = await auth();
@@ -54,6 +55,13 @@ async function saveContent(
     revalidatePath(`/blog/${data.slug}`);
     revalidatePath("/projects");
     revalidatePath("/");
+
+    // Ping IndexNow for instant Bing/Yandex indexing
+    const baseUrl = "https://kumardivyarajat.com";
+    const contentUrl = contentType === "blog"
+      ? `${baseUrl}/blog/${data.slug}`
+      : `${baseUrl}/projects/${data.slug}`;
+    submitToIndexNow([contentUrl, `${baseUrl}/blog`, `${baseUrl}/projects`, baseUrl]);
 
     return { success: true, sha: result.sha };
   } catch (error) {

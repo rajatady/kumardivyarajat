@@ -21,6 +21,8 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post) return {};
 
+  const ogUrl = `https://kumardivyarajat.com/og?title=${encodeURIComponent(post.frontmatter.title)}&description=${encodeURIComponent(post.frontmatter.description)}&date=${encodeURIComponent(new Date(post.frontmatter.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }))}`;
+
   return {
     title: post.frontmatter.title,
     description: post.frontmatter.description,
@@ -34,11 +36,13 @@ export async function generateMetadata({
       publishedTime: post.frontmatter.date,
       tags: post.frontmatter.tags,
       url: `https://kumardivyarajat.com/blog/${slug}`,
+      images: [{ url: ogUrl, width: 1200, height: 630, alt: post.frontmatter.title }],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: post.frontmatter.title,
       description: post.frontmatter.description,
+      images: [ogUrl],
     },
   };
 }
