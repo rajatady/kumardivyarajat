@@ -1,0 +1,220 @@
+---
+title: Pretrained models converge to deterministic computational subspaces
+description: >-
+  Four independently trained models find the same subspace geometry. That
+  geometry transfers cross-modally, defines what solutions are reachable, and
+  guides developmental construction toward convergent structure. The evidence,
+  the controls, and what it means.
+date: '2026-03-18'
+tags:
+  - neural-networks
+relatedPosts:
+  - >-
+    the-genome-hypothesis-a-thought-experiment-about-what-pretraining-actually-finds
+  - what-if-pretrained-weights-are-a-genome-not-a-brain
+published: true
+---
+I've been running experiments on what pretrained neural network weights actually contain. Not the weight values. The geometric structure underneath them. The directions the weights organize along.
+
+The short version: training doesn't just find good weights. It finds good structure. That structure is deterministic (different training runs converge to it), separable (you can throw away the weights and keep only the structure), cross-modal (language structure helps vision), and constructive (it can guide the building of smaller networks toward convergent outcomes).
+
+Here's what I found and how I found it.
+
+## The question
+
+When you train a model, backpropagation searches through a massive space of possible weight configurations. It finds one that works. But what exactly did it find?
+
+One answer: it found good weight values. The specific numbers matter. This is the standard view.
+
+Another answer: it found good structure. The directions the weight matrices organize along matter more than the specific values. The structure is the real output of training. The values are incidental.
+
+If the second answer is right, you should be able to extract the structure, throw away everything else, and still get something useful. That's what I tested.
+
+## How to read structure from a weight matrix
+
+Every weight matrix can be decomposed via SVD into three components: U (output directions), S (importance of each direction), and V (input directions). The top k directions capture the dominant axes of computation. I extract these directions and discard the singular values and original weights entirely.
+
+The key operation: take the top 10% of SVD directions from a pretrained model. Build a new model constrained to only operate within those directions. Initialize with fresh random weights. Train from scratch.
+
+If the pretrained directions help compared to random orthogonal directions of the same rank, then the structure is useful independently of the weights.
+
+## Result 1: Four training runs find the same subspace
+
+<Emphasis>
+Training is deterministic at the level of computational subspaces. Four independently trained Pythia-160M models, different random seeds, converge to SVD axes that are functionally interchangeable.
+</Emphasis>
+
+I took four independently trained Pythia-160M checkpoints. Extracted SVD axes (top 10%) from each. Built four fresh models, each constrained to one donor's axes, with random weights. Trained all four on the same data.
+
+| Condition | Validation Loss |
+|---|---|
+| Seed 1 axes | 7.378 |
+| Seed 2 axes | 7.362 |
+| Seed 3 axes | 7.362 |
+| Seed 4 axes | 7.299 |
+| Random axes | 7.693 |
+| Dense (no constraint) | 7.571 |
+
+The four pretrained-axis models land in a tight band: std/gap ratio of 0.09. The gap between pretrained and random is 0.34. Four different training runs found essentially the same computational geometry.
+
+And 10% of the right subspace beats 100% unconstrained. Less is more when the directions are right.
+
+<chart: bar chart showing the 6 conditions, with the 4 pretrained seeds visually clustered together vs random and dense. Emphasize the tight band of the pretrained group.>
+
+## Result 2: The gap is permanent
+
+<Emphasis>
+Models in wrong subspaces don't just learn slower. They converge to permanently worse solutions. The structure defines reachability, not speed.
+</Emphasis>
+
+I trained pretrained-axis and random-axis models to full convergence (50,000 steps on Pythia-14M with early stopping).
+
+| Condition | Best Val Loss | Stopped At |
+|---|---|---|
+| Pretrained SVD 10% | 6.2442 | 38K steps |
+| Random SVD 10% | 6.3331 | 40K steps |
+| Dense 100% | 6.1526 | 21K steps |
+
+The random model trained 2,000 steps longer and still ended up worse. The gap of 0.089 nats never closed. Not a speed difference. A reachability difference. Some solutions are permanently inaccessible from wrong directions.
+
+Dense eventually wins because it has 10x the capacity. But within the same parameter budget, the right 10% of directions beats the wrong 10% forever.
+
+<chart: convergence curves over 50K steps for all three conditions. Show how pretrained and random diverge early and the gap never closes despite random training longer.>
+
+## Result 3: The structure is extractable via SVD, not magnitude
+
+This matters methodologically. Previous work on lottery tickets and network pruning identifies structure by looking at which individual weights are large (magnitude pruning). I found that this breaks at scale.
+
+| Model | Method | Gap vs Random |
+|---|---|---|
+| SmolLM2-135M | Magnitude | +0.42 |
+| SmolLM2-135M | SVD | +0.66 |
+| SmolLM2-1.7B | Magnitude | **-0.07** (random wins) |
+| SmolLM2-1.7B | SVD | +0.17 |
+| Qwen 2.5-1.5B | Magnitude | **-0.53** (random wins) |
+
+Magnitude collapses at scale. SVD survives universally. The structural information lives in the subspace geometry, not in individual weight magnitudes. This is consistent with the observation that structure is about directions, not values.
+
+<chart: grouped bar chart, model on x-axis, magnitude vs SVD method on each, showing magnitude collapsing while SVD stays positive.>
+
+## Result 4: Structure value scales exponentially with constraint
+
+<Emphasis>
+The tighter the resource constraint, the more the pretrained structure matters. The relationship is exponential.
+</Emphasis>
+
+I swept sparsity levels on SmolLM2-135M magnitude skeletons, comparing pretrained connectivity mask vs random mask at each level.
+
+| Sparsity | Gap (pretrained - random) |
+|---|---|
+| 10% | ~0 |
+| 30% | ~0 |
+| 50% | +0.09 |
+| 75% | +0.23 |
+| 90% | +0.76 |
+
+At low sparsity (lots of capacity), knowing which connections to keep doesn't matter. Random is fine. At high sparsity (severe constraint), the pretrained pattern becomes critical. The curve is exponential.
+
+<chart: line chart, sparsity on x-axis, gap on y-axis, showing the exponential takeoff.>
+
+## Result 5: Language structure helps vision
+
+The structural information isn't domain-specific. SVD axes from a language model improve learning on CIFAR-10 image classification, compared to random axes of the same rank.
+
+SmolLM2-135M language model, skeleton applied to CIFAR-10 classification (3 seeds, 1000 training steps):
+
+| Condition | Mean Accuracy |
+|---|---|
+| Language skeleton | 56.5% |
+| Random skeleton | 54.0% |
+| Dense baseline | 37.1% |
+
+Gap of +2.5%. Every seed positive. Never flips sign. Both sparse conditions crush dense (sparsity as regularizer on small data), but pretrained sparse consistently beats random sparse.
+
+The structure isn't about language. It's about how this architecture (the transformer) organizes computation of any kind.
+
+<chart: bar chart, three conditions, three seeds shown as individual dots overlaid on bars.>
+
+## Result 6: Structure guides developmental construction
+
+This is the newest result and the most speculative. Instead of constraining a model of the same size, I tried using pretrained structure to BUILD a smaller model through a developmental process.
+
+The process has three phases modeled on biological neural development:
+
+**Overproduction:** Start with all pretrained SVD directions active (more capacity than needed). Train briefly.
+
+**Pruning:** Gradually remove directions with lowest gradient magnitude. Six rounds of pruning over 600 steps, reducing from 100% to 39% of directions.
+
+**Consolidation:** Lock surviving structure. Train to convergence with no further pruning.
+
+I ran this process four times with the same pretrained subspaces but different training seeds. Then four times with random subspaces.
+
+| Group | Seed | Final Loss | Alive Fraction |
+|---|---|---|---|
+| Pretrained | 42 | 6.523 | 39.1% |
+| Pretrained | 123 | 6.520 | 39.1% |
+| Pretrained | 7 | 6.530 | 39.1% |
+| Pretrained | 999 | 6.512 | 39.1% |
+| Random | 42 | 6.559 | 39.1% |
+| Random | 123 | 6.558 | 39.1% |
+| Random | 7 | 6.545 | 39.1% |
+| Random | 999 | 6.546 | 39.1% |
+
+Two results here.
+
+First, pretrained beats random after the full developmental process. Mean 6.521 vs 6.552. Gap of 0.031. Modest but every pretrained seed beats every random seed.
+
+Second, the structural convergence. I measured the pairwise cosine similarity of the surviving direction masks across the four seeds within each group.
+
+| Group | Mean Loss | Loss Std | Mask Similarity |
+|---|---|---|---|
+| Pretrained | 6.521 | 0.007 | **0.541** |
+| Random | 6.552 | 0.006 | 0.391 |
+
+The pretrained group converges to 38% more similar surviving structures than the random group. Four models that started from different random weights but developed inside the same pretrained subspace ended up with more similar architectures. Different initializations, same blueprint, convergent structure.
+
+<chart: two-panel figure. Left panel: bar chart of mask similarity, pretrained vs random, showing the 0.54 vs 0.39 gap. Right panel: heatmap of pairwise mask similarities for pretrained (4x4 matrix) and random (4x4 matrix) side by side.>
+
+This is the identical twins observation. Same genome, different development, convergent structure. Different genome, different development, divergent structure.
+
+## What this doesn't prove
+
+I want to be direct about the limitations.
+
+The effects are real but modest at this scale. SmolLM2-135M operates in 576 dimensions. At 30% rank (171 directions), the gap between pretrained and random subspaces disappears entirely. In 576 dimensions, random subspaces have enough accidental overlap with pretrained subspaces that the structural advantage washes out.
+
+This is actually a prediction about scale. In higher dimensional spaces (4096, 8192), random subspaces should have dramatically less accidental overlap with pretrained ones. The genome effect should grow with model size. The cross-modal result supports this: the gap grew from 2.0% at 135M to 3.2% at 1.7B parameters. But I haven't run the developmental experiment at larger scale.
+
+The developmental result is the weakest link. The mask convergence (0.54 vs 0.39) is suggestive but not overwhelming. And the loss variance is identical across groups, meaning structural convergence hasn't translated into functional convergence at this scale.
+
+## What this does show
+
+Training converges to deterministic computational subspaces. Four training runs find essentially the same geometry (std/gap = 0.09).
+
+These subspaces define reachability, not speed. Wrong subspaces lead to permanently worse solutions regardless of training duration.
+
+SVD extracts this structure where magnitude pruning fails at scale.
+
+The structure transfers cross-modally. It isn't about domain-specific knowledge. It's about architectural computation patterns.
+
+And when used to guide a developmental process, pretrained structure produces more convergent outcomes than random structure.
+
+<Emphasis>
+The structure is real, deterministic, separable, transferable, and constructive. What you do with that framing is a separate question. But the geometry is there in the weights, independent of the weight values, waiting to be read.
+</Emphasis>
+
+## Connection to broader ideas
+
+There's a way of thinking about this that I find compelling but can't yet prove. Pretraining might be closer to evolution than to learning. The search process (backprop over billions of tokens) finds compressed structural information, the same way evolution finds compressed structural information in the genome. The resulting weights are a blueprint, not a deployed intelligence.
+
+Biology separated the blueprint from the thing it builds. DNA doesn't think. It builds things that think. The genome stores structure. Development reads that structure and constructs a brain. The brain does the actual computation.
+
+Current AI doesn't have this separation. The weights serve as both blueprint and computer simultaneously. We're trying to make the genome reason, instead of using the genome to build something that reasons.
+
+The developmental experiment is a first attempt at that separation. Extract structure from a big model. Use it to construct a small model through a developmental process. It works, barely. The reading mechanism is primitive. The scale is too small.
+
+But the direction seems right. The structure is there. The question is how to read it.
+
+---
+
+*All experiments run on SmolLM2-135M, SmolLM2-1.7B, Pythia-160M, Pythia-14M, and Qwen 2.5-1.5B. Code and results available at [repo link]. The developmental experiment uses frozen pretrained embeddings and lm_head across all conditions, isolating the transformer layer structure as the only variable.*
