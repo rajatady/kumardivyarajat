@@ -24,12 +24,16 @@ export async function generateMetadata({
   return {
     title: post.frontmatter.title,
     description: post.frontmatter.description,
+    alternates: {
+      canonical: `https://kumardivyarajat.com/blog/${slug}`,
+    },
     openGraph: {
       title: post.frontmatter.title,
       description: post.frontmatter.description,
       type: "article",
       publishedTime: post.frontmatter.date,
       tags: post.frontmatter.tags,
+      url: `https://kumardivyarajat.com/blog/${slug}`,
     },
   };
 }
@@ -70,8 +74,31 @@ export default async function BlogPost({
     },
   });
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.frontmatter.title,
+    description: post.frontmatter.description,
+    datePublished: post.frontmatter.date,
+    author: {
+      "@type": "Person",
+      name: "Kumar Divya Rajat",
+      url: "https://kumardivyarajat.com/about",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Kumar Divya Rajat",
+    },
+    url: `https://kumardivyarajat.com/blog/${slug}`,
+    keywords: post.frontmatter.tags,
+  };
+
   return (
     <article className="mx-auto max-w-4xl px-6 pt-16 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Back link */}
       <Link
         href="/blog"
