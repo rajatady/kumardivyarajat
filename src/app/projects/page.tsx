@@ -14,8 +14,29 @@ export default function ProjectsPage() {
     ...projects.filter((p) => !p.frontmatter.featured),
   ];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Projects — Kumar Divya Rajat",
+    description: "Things I've built and contributed to.",
+    url: "https://kumardivyarajat.com/projects",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: sorted.map((project, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `https://kumardivyarajat.com/projects/${project.slug}`,
+        name: project.frontmatter.title,
+      })),
+    },
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-6 pt-16 pb-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mb-12">
         <h1 className="font-headline text-4xl font-medium tracking-tight text-text mb-3">
           Projects

@@ -6,8 +6,29 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: "Kumar Divya Rajat",
+      url: "https://kumardivyarajat.com",
+      jobTitle: "Software Engineer",
+      email: "rajat.ady@gmail.com",
+      sameAs: [
+        "https://github.com/rajatady",
+        "https://x.com/Rajat225",
+      ],
+      image: "https://kumardivyarajat.com/icon-512.png",
+    },
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-6 pt-16 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-2xl">
         <h1 className="font-headline text-4xl font-medium tracking-tight text-text mb-8">
           About
