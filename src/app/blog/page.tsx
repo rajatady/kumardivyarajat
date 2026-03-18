@@ -1,41 +1,17 @@
-import { Suspense } from "react";
 import { getAllPosts, getAllTags } from "@/lib/content";
-import { ArticleCard } from "@/components/ArticleCard";
-import { TagFilter } from "@/components/TagFilter";
+import { BlogContent } from "@/components/BlogContent";
 import type { Metadata } from "next";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Articles about software engineering, design, and building things.",
+  description:
+    "Articles about software engineering, design, and building things.",
 };
 
-function BlogList({ tag }: { tag: string | null }) {
-  const allPosts = getAllPosts();
-  const posts = tag
-    ? allPosts.filter((p) => p.frontmatter.tags?.includes(tag))
-    : allPosts;
-
-  return (
-    <div className="flex flex-col gap-8">
-      {posts.length === 0 ? (
-        <p className="text-text-muted font-ui text-sm py-12 text-center">
-          No articles found for this tag.
-        </p>
-      ) : (
-        posts.map((post, i) => (
-          <ArticleCard key={post.slug} post={post} featured={i === 0} />
-        ))
-      )}
-    </div>
-  );
-}
-
-export default async function BlogPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ tag?: string }>;
-}) {
-  const { tag } = await searchParams;
+export default function BlogPage() {
+  const posts = getAllPosts();
   const tags = getAllTags();
 
   return (
@@ -50,15 +26,7 @@ export default async function BlogPage({
         </p>
       </div>
 
-      <div className="mb-10">
-        <Suspense fallback={null}>
-          <TagFilter tags={tags} />
-        </Suspense>
-      </div>
-
-      <div>
-        <BlogList tag={tag ?? null} />
-      </div>
+      <BlogContent posts={posts} tags={tags} />
     </div>
   );
 }
