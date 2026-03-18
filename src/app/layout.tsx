@@ -35,6 +35,20 @@ export const metadata: Metadata = {
   description:
     "Personal blog and portfolio. Writing about software engineering, design, and building things.",
   metadataBase: new URL("https://kumardivyarajat.com"),
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
+  alternates: {
+    canonical: "https://kumardivyarajat.com",
+    types: {
+      "application/rss+xml": "https://kumardivyarajat.com/feed.xml",
+    },
+  },
   openGraph: {
     title: "Kumar Divya Rajat",
     description:
@@ -43,12 +57,23 @@ export const metadata: Metadata = {
     siteName: "Kumar Divya Rajat",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/icon-512.png",
+        width: 512,
+        height: 512,
+        alt: "KDR",
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
+    site: "@Rajat225",
+    creator: "@Rajat225",
     title: "Kumar Divya Rajat",
     description:
       "Personal blog and portfolio. Writing about software engineering, design, and building things.",
+    images: ["/icon-512.png"],
   },
   robots: {
     index: true,

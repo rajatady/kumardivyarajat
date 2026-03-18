@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -19,9 +20,15 @@ export function Header() {
       <nav className="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
         <Link
           href="/"
-          className="font-headline text-xl font-medium tracking-tight text-text transition-colors hover:text-accent"
+          className="transition-opacity hover:opacity-80"
         >
-          KDR
+          <Image
+            src="/favicon.svg"
+            alt="KDR"
+            width={32}
+            height={32}
+            className="rounded"
+          />
         </Link>
 
         <ul className="flex items-center gap-8">

@@ -35,6 +35,11 @@ export async function generateMetadata({
       tags: post.frontmatter.tags,
       url: `https://kumardivyarajat.com/blog/${slug}`,
     },
+    twitter: {
+      card: "summary",
+      title: post.frontmatter.title,
+      description: post.frontmatter.description,
+    },
   };
 }
 
