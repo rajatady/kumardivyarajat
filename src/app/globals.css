@@ -26,7 +26,7 @@
   --font-sans: var(--font-source-serif), Georgia, serif;
   --font-headline: var(--font-newsreader);
   --font-body: var(--font-source-serif);
-  --font-ui: var(--font-dm-sans);
+  --font-ui: ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
 /* Base */

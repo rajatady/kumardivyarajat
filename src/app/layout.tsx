@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Newsreader, Source_Serif_4, DM_Sans } from "next/font/google";
+import { Newsreader, Source_Serif_4 } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import "./globals.css";
@@ -20,12 +20,6 @@ const sourceSerif = Source_Serif_4({
   style: ["normal", "italic"],
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -89,7 +83,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${newsreader.variable} ${sourceSerif.variable} ${dmSans.variable} grain`}
+        className={`${newsreader.variable} ${sourceSerif.variable} grain`}
       >
         <div className="min-h-screen flex flex-col">
           <Header />
