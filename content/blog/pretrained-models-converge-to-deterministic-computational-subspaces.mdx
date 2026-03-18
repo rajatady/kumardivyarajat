@@ -59,7 +59,7 @@ The four pretrained-axis models land in a tight band: std/gap ratio of 0.09. The
 
 And 10% of the right subspace beats 100% unconstrained. Less is more when the directions are right.
 
-<chart: bar chart showing the 6 conditions, with the 4 pretrained seeds visually clustered together vs random and dense. Emphasize the tight band of the pretrained group.>
+{/* chart: bar chart showing the 6 conditions, with the 4 pretrained seeds visually clustered together vs random and dense. Emphasize the tight band of the pretrained group. */}
 
 ## Result 2: The gap is permanent
 
@@ -79,7 +79,7 @@ The random model trained 2,000 steps longer and still ended up worse. The gap of
 
 Dense eventually wins because it has 10x the capacity. But within the same parameter budget, the right 10% of directions beats the wrong 10% forever.
 
-<chart: convergence curves over 50K steps for all three conditions. Show how pretrained and random diverge early and the gap never closes despite random training longer.>
+{/* chart: convergence curves over 50K steps for all three conditions. Show how pretrained and random diverge early and the gap never closes despite random training longer. */}
 
 ## Result 3: The structure is extractable via SVD, not magnitude
 
@@ -95,7 +95,7 @@ This matters methodologically. Previous work on lottery tickets and network prun
 
 Magnitude collapses at scale. SVD survives universally. The structural information lives in the subspace geometry, not in individual weight magnitudes. This is consistent with the observation that structure is about directions, not values.
 
-<chart: grouped bar chart, model on x-axis, magnitude vs SVD method on each, showing magnitude collapsing while SVD stays positive.>
+{/* chart: grouped bar chart, model on x-axis, magnitude vs SVD method on each, showing magnitude collapsing while SVD stays positive. */}
 
 ## Result 4: Structure value scales exponentially with constraint
 
@@ -115,7 +115,7 @@ I swept sparsity levels on SmolLM2-135M magnitude skeletons, comparing pretraine
 
 At low sparsity (lots of capacity), knowing which connections to keep doesn't matter. Random is fine. At high sparsity (severe constraint), the pretrained pattern becomes critical. The curve is exponential.
 
-<chart: line chart, sparsity on x-axis, gap on y-axis, showing the exponential takeoff.>
+{/* chart: line chart, sparsity on x-axis, gap on y-axis, showing the exponential takeoff. */}
 
 ## Result 5: Language structure helps vision
 
@@ -133,7 +133,7 @@ Gap of +2.5%. Every seed positive. Never flips sign. Both sparse conditions crus
 
 The structure isn't about language. It's about how this architecture (the transformer) organizes computation of any kind.
 
-<chart: bar chart, three conditions, three seeds shown as individual dots overlaid on bars.>
+{/* chart: bar chart, three conditions, three seeds shown as individual dots overlaid on bars. */}
 
 ## Result 6: Structure guides developmental construction
 
@@ -173,7 +173,7 @@ Second, the structural convergence. I measured the pairwise cosine similarity of
 
 The pretrained group converges to 38% more similar surviving structures than the random group. Four models that started from different random weights but developed inside the same pretrained subspace ended up with more similar architectures. Different initializations, same blueprint, convergent structure.
 
-<chart: two-panel figure. Left panel: bar chart of mask similarity, pretrained vs random, showing the 0.54 vs 0.39 gap. Right panel: heatmap of pairwise mask similarities for pretrained (4x4 matrix) and random (4x4 matrix) side by side.>
+{/* chart: two-panel figure. Left panel: bar chart of mask similarity, pretrained vs random, showing the 0.54 vs 0.39 gap. Right panel: heatmap of pairwise mask similarities for pretrained (4x4 matrix) and random (4x4 matrix) side by side. */}
 
 This is the identical twins observation. Same genome, different development, convergent structure. Different genome, different development, divergent structure.
 
