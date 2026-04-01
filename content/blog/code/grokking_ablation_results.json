@@ -1,0 +1,200 @@
+[
+  {
+    "intervention": "baseline",
+    "checkpoint": 7000,
+    "trainable_params": 820736,
+    "total_params": 820736,
+    "final_test_acc": 0.918,
+    "max_test_acc": 0.918,
+    "grokked": true
+  },
+  {
+    "intervention": "no_weight_decay",
+    "checkpoint": 7000,
+    "trainable_params": 820736,
+    "total_params": 820736,
+    "final_test_acc": 0.0273,
+    "max_test_acc": 0.0469,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_head",
+    "checkpoint": 7000,
+    "trainable_params": 808064,
+    "total_params": 820736,
+    "final_test_acc": 0.4102,
+    "max_test_acc": 0.4336,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_embed",
+    "checkpoint": 7000,
+    "trainable_params": 806016,
+    "total_params": 820736,
+    "final_test_acc": 0.7734,
+    "max_test_acc": 0.7734,
+    "grokked": true
+  },
+  {
+    "intervention": "freeze_exit_layer",
+    "checkpoint": 7000,
+    "trainable_params": 622464,
+    "total_params": 820736,
+    "final_test_acc": 0.0703,
+    "max_test_acc": 0.0703,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_exit_attn",
+    "checkpoint": 7000,
+    "trainable_params": 754688,
+    "total_params": 820736,
+    "final_test_acc": 0.6719,
+    "max_test_acc": 0.6719,
+    "grokked": true
+  },
+  {
+    "intervention": "freeze_exit_mlp",
+    "checkpoint": 7000,
+    "trainable_params": 689024,
+    "total_params": 820736,
+    "final_test_acc": 0.2109,
+    "max_test_acc": 0.2109,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_entry_layer",
+    "checkpoint": 7000,
+    "trainable_params": 622464,
+    "total_params": 820736,
+    "final_test_acc": 0.3203,
+    "max_test_acc": 0.3359,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_middle_layers",
+    "checkpoint": 7000,
+    "trainable_params": 424192,
+    "total_params": 820736,
+    "final_test_acc": 0.0352,
+    "max_test_acc": 0.043,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_attn_all",
+    "checkpoint": 7000,
+    "trainable_params": 555520,
+    "total_params": 820736,
+    "final_test_acc": 0.0312,
+    "max_test_acc": 0.0391,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_mlp_all",
+    "checkpoint": 7000,
+    "trainable_params": 292864,
+    "total_params": 820736,
+    "final_test_acc": 0.0586,
+    "max_test_acc": 0.0625,
+    "grokked": false
+  },
+  {
+    "intervention": "baseline",
+    "checkpoint": 11000,
+    "trainable_params": 820736,
+    "total_params": 820736,
+    "final_test_acc": 0.9727,
+    "max_test_acc": 0.9766,
+    "grokked": true
+  },
+  {
+    "intervention": "no_weight_decay",
+    "checkpoint": 11000,
+    "trainable_params": 820736,
+    "total_params": 820736,
+    "final_test_acc": 0.0859,
+    "max_test_acc": 0.0938,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_head",
+    "checkpoint": 11000,
+    "trainable_params": 808064,
+    "total_params": 820736,
+    "final_test_acc": 0.9531,
+    "max_test_acc": 0.9531,
+    "grokked": true
+  },
+  {
+    "intervention": "freeze_embed",
+    "checkpoint": 11000,
+    "trainable_params": 806016,
+    "total_params": 820736,
+    "final_test_acc": 0.9883,
+    "max_test_acc": 0.9883,
+    "grokked": true
+  },
+  {
+    "intervention": "freeze_exit_layer",
+    "checkpoint": 11000,
+    "trainable_params": 622464,
+    "total_params": 820736,
+    "final_test_acc": 0.4492,
+    "max_test_acc": 0.6992,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_exit_attn",
+    "checkpoint": 11000,
+    "trainable_params": 754688,
+    "total_params": 820736,
+    "final_test_acc": 0.6484,
+    "max_test_acc": 0.9727,
+    "grokked": true
+  },
+  {
+    "intervention": "freeze_exit_mlp",
+    "checkpoint": 11000,
+    "trainable_params": 689024,
+    "total_params": 820736,
+    "final_test_acc": 0.8633,
+    "max_test_acc": 0.8984,
+    "grokked": true
+  },
+  {
+    "intervention": "freeze_entry_layer",
+    "checkpoint": 11000,
+    "trainable_params": 622464,
+    "total_params": 820736,
+    "final_test_acc": 0.957,
+    "max_test_acc": 0.957,
+    "grokked": true
+  },
+  {
+    "intervention": "freeze_middle_layers",
+    "checkpoint": 11000,
+    "trainable_params": 424192,
+    "total_params": 820736,
+    "final_test_acc": 0.0859,
+    "max_test_acc": 0.0859,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_attn_all",
+    "checkpoint": 11000,
+    "trainable_params": 555520,
+    "total_params": 820736,
+    "final_test_acc": 0.3906,
+    "max_test_acc": 0.3906,
+    "grokked": false
+  },
+  {
+    "intervention": "freeze_mlp_all",
+    "checkpoint": 11000,
+    "trainable_params": 292864,
+    "total_params": 820736,
+    "final_test_acc": 0.1289,
+    "max_test_acc": 0.1289,
+    "grokked": false
+  }
+]

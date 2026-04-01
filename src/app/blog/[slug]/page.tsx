@@ -3,6 +3,7 @@ import Link from "next/link";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
+import { rehypeChart } from "@/lib/rehype-chart";
 import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/content";
 import { mdxComponents } from "@/components/MDXComponents";
 import type { Metadata } from "next";
@@ -71,6 +72,7 @@ export default async function BlogPost({
       mdxOptions: {
         remarkPlugins: [remarkGfm],
         rehypePlugins: [
+          rehypeChart,
           [
             rehypePrettyCode,
             {

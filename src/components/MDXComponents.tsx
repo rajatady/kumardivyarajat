@@ -34,9 +34,63 @@ function PullQuote({ children }: { children: React.ReactNode }) {
   );
 }
 
+function DataView({
+  src,
+  title,
+  lang = "json",
+  collapsed = false,
+}: {
+  src: string;
+  title?: string;
+  lang?: string;
+  collapsed?: boolean;
+}) {
+  const formatted =
+    lang === "json"
+      ? (() => {
+          try {
+            return JSON.stringify(JSON.parse(src), null, 2);
+          } catch {
+            return src;
+          }
+        })()
+      : src;
+
+  return (
+    <details className="my-6 group" open={!collapsed}>
+      {title && (
+        <summary className="cursor-pointer select-none flex items-center gap-2 px-4 py-2.5 bg-[#1e1e1e] text-[#d4d4d4] rounded-t-lg text-sm font-mono border border-[#333] border-b-0 hover:bg-[#252525] transition-colors">
+          <span className="text-[#8B8680] group-open:rotate-90 transition-transform text-xs">
+            &#9654;
+          </span>
+          <span className="text-[#8B8680] text-xs uppercase tracking-wider">
+            {lang}
+          </span>
+          <span className="text-[#ccc]">{title}</span>
+          <span className="ml-auto text-[#666] text-xs">
+            {formatted.split("\n").length} lines
+          </span>
+        </summary>
+      )}
+      <div
+        className={`overflow-auto max-h-[500px] bg-[#1e1e1e] border border-[#333] ${
+          title ? "rounded-b-lg" : "rounded-lg"
+        }`}
+      >
+        <pre className="p-4 text-sm leading-relaxed m-0">
+          <code className="text-[#d4d4d4] font-mono whitespace-pre">
+            {formatted}
+          </code>
+        </pre>
+      </div>
+    </details>
+  );
+}
+
 export const mdxComponents: MDXComponentsType = {
   Callout,
   PullQuote,
+  DataView,
   h1: (props) => (
     <h1
       className="font-headline text-4xl font-medium leading-tight tracking-tight mt-12 mb-4"

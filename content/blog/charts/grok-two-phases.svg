@@ -1,0 +1,24 @@
+<svg viewBox="0 0 720 300" style="width:100%;display:block">
+<rect width="720" height="300" fill="#FDFBF7" rx="6"/>
+<rect x="40" y="40" width="300" height="220" rx="8" fill="#D4846A" opacity="0.08" stroke="#D4846A" stroke-width="1" stroke-opacity="0.3"/>
+<text x="190" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="#D4846A" font-family="DM Sans,system-ui">Phase 1: Infrastructure</text>
+<text x="190" y="90" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">Steps 0 → ~11,000</text>
+<text x="60" y="120" font-size="11" fill="#4A4A4A" font-family="DM Sans,system-ui">Entry layer learns input routing</text>
+<text x="60" y="142" font-size="11" fill="#4A4A4A" font-family="DM Sans,system-ui">Exit layer builds output interface</text>
+<text x="60" y="164" font-size="11" fill="#4A4A4A" font-family="DM Sans,system-ui">Output head calibrates predictions</text>
+<text x="60" y="186" font-size="11" fill="#4A4A4A" font-family="DM Sans,system-ui">Embeddings already done (freezable)</text>
+<text x="60" y="218" font-size="10" font-weight="600" fill="#D4846A" font-family="DM Sans,system-ui">After this phase: these components</text>
+<text x="60" y="234" font-size="10" font-weight="600" fill="#D4846A" font-family="DM Sans,system-ui">can be frozen without affecting</text>
+<text x="60" y="250" font-size="10" font-weight="600" fill="#D4846A" font-family="DM Sans,system-ui">generalization.</text>
+<line x1="350" y1="150" x2="375" y2="150" stroke="#4A4A4A" stroke-width="1.5"/>
+<polygon points="375,145 385,150 375,155" fill="#4A4A4A"/>
+<rect x="390" y="40" width="300" height="220" rx="8" fill="#C45D3E" opacity="0.08" stroke="#C45D3E" stroke-width="1" stroke-opacity="0.3"/>
+<text x="540" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="#C45D3E" font-family="DM Sans,system-ui">Phase 2: Computation</text>
+<text x="540" y="90" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">Steps ~11,000 → grokking</text>
+<text x="410" y="120" font-size="11" fill="#4A4A4A" font-family="DM Sans,system-ui">Middle layers reorganize circuits</text>
+<text x="410" y="142" font-size="11" fill="#4A4A4A" font-family="DM Sans,system-ui">Weight decay compresses solution</text>
+<text x="410" y="164" font-size="11" fill="#4A4A4A" font-family="DM Sans,system-ui">Memorization → generalization</text>
+<text x="410" y="218" font-size="10" font-weight="600" fill="#C45D3E" font-family="DM Sans,system-ui">Only middle layers + weight decay</text>
+<text x="410" y="234" font-size="10" font-weight="600" fill="#C45D3E" font-family="DM Sans,system-ui">are needed. Everything else is</text>
+<text x="410" y="250" font-size="10" font-weight="600" fill="#C45D3E" font-family="DM Sans,system-ui">already locked in.</text>
+</svg>

@@ -1,0 +1,31 @@
+<svg viewBox="0 0 720 400" style="width:100%;display:block">
+<rect width="720" height="400" fill="#FDFBF7" rx="6"/>
+<line x1="72" y1="32" x2="72" y2="320" stroke="#E8E4DE" stroke-width="0.5"/>
+<line x1="72" y1="320" x2="692" y2="320" stroke="#E8E4DE" stroke-width="0.5"/>
+<text x="14" y="180" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui" transform="rotate(-90 14 180)">Test accuracy</text>
+<text x="66" y="324" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">0%</text>
+<line x1="72" y1="176" x2="692" y2="176" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="180" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">50%</text>
+<line x1="72" y1="32" x2="692" y2="32" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="36" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">100%</text>
+<text x="72" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">7K</text>
+<text x="227" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">9.5K</text>
+<text x="382" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">12K</text>
+<text x="537" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">14.5K</text>
+<text x="692" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">17K</text>
+<text x="382" y="380" text-anchor="middle" font-size="11" fill="#8B8680" font-family="DM Sans,system-ui">Training steps (continued from checkpoint 7K)</text>
+<polyline fill="none" stroke="#2D8B46" stroke-width="2.5" points="72,313 103,314 134,312 165,311 196,311 227,312 258,310 289,304 320,309 351,301 382,273 413,275 444,269 475,266 506,141 537,131 568,127 599,114 630,102 661,55"/>
+<text x="665" y="52" font-size="9" font-weight="600" fill="#2D8B46" font-family="DM Sans,system-ui">baseline 92%</text>
+<polyline fill="none" stroke="#C45D3E" stroke-width="2" points="72,314 103,308 134,308 165,308 196,312 227,309 258,308 289,305 320,302 351,296 382,297 413,296 444,261 475,232 506,228 537,247 568,100 599,97"/>
+<text x="603" y="94" font-size="9" font-weight="600" fill="#C45D3E" font-family="DM Sans,system-ui">embed 77%</text>
+<polyline fill="none" stroke="#D4846A" stroke-width="1.5" points="72,313 103,312 134,311 165,312 196,313 227,311 258,309 289,302 320,305 351,304 382,303 413,300 444,259 475,259 506,258 537,157 568,144 599,137 630,129 661,127"/>
+<text x="665" y="124" font-size="9" fill="#D4846A" font-family="DM Sans,system-ui">exit_attn 67%</text>
+<polyline fill="none" stroke="#8B8680" stroke-width="1.5" stroke-dasharray="4 3" points="72,313 103,309 134,310 165,311 196,308 227,310 258,315 289,308 320,308 351,302 382,302 413,304 444,287 475,282 506,280 537,294 568,195 599,203 630,203 661,202"/>
+<text x="665" y="199" font-size="9" fill="#8B8680" font-family="DM Sans,system-ui">head 41%</text>
+<polyline fill="none" stroke="#BFBAB3" stroke-width="1.5" stroke-dasharray="4 3" points="72,314 103,312 134,311 165,309 196,309 227,311 258,310 289,304 320,305 351,307 382,304 413,303 444,293 475,291 506,292 537,291 568,292 599,223 630,225 661,228"/>
+<text x="665" y="225" font-size="9" fill="#BFBAB3" font-family="DM Sans,system-ui">entry 32%</text>
+<polyline fill="none" stroke="#C45D3E" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.5" points="72,312 103,308 134,312 165,312 196,311 227,312 258,311 289,309 320,311 351,310 382,308 413,310 444,310 475,311 506,311 537,311 568,311 599,311 630,311 661,310"/>
+<text x="665" y="307" font-size="9" fill="#C45D3E" opacity="0.6" font-family="DM Sans,system-ui">middle 4%</text>
+<rect x="72" y="290" width="620" height="30" fill="#C45D3E" opacity="0.04" rx="3"/>
+<text x="382" y="310" text-anchor="middle" font-size="9" fill="#C45D3E" opacity="0.5" font-family="DM Sans,system-ui">flat: middle layers, all attention, all MLP, no weight decay</text>
+</svg>

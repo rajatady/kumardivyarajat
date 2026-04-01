@@ -1,0 +1,59 @@
+<svg viewBox="0 0 720 400" style="width:100%;display:block">
+<rect width="720" height="400" fill="#FDFBF7" rx="6"/>
+<line x1="80" y1="32" x2="80" y2="320" stroke="#E8E4DE" stroke-width="0.5"/>
+<line x1="80" y1="320" x2="692" y2="320" stroke="#E8E4DE" stroke-width="0.5"/>
+<text x="14" y="180" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui" transform="rotate(-90 14 180)">Final cost at epoch 150</text>
+<text x="386" y="380" text-anchor="middle" font-size="11" fill="#8B8680" font-family="DM Sans,system-ui">First hidden layer width</text>
+<!-- Y axis: 0 to 1400. Scale: 320=0, 32=1400. Per unit: 288/1400 = 0.2057 -->
+<text x="74" y="324" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">0</text>
+<line x1="80" y1="251" x2="692" y2="251" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="255" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">350</text>
+<line x1="80" y1="176" x2="692" y2="176" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="180" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">700</text>
+<line x1="80" y1="107" x2="692" y2="107" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="111" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">1050</text>
+<line x1="80" y1="32" x2="692" y2="32" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="36" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">1400</text>
+<!-- Regime background bands -->
+<rect x="97" y="32" width="160" height="288" fill="#D4846A" opacity="0.04"/>
+<text x="177" y="50" text-anchor="middle" font-size="9" fill="#D4846A" font-family="DM Sans,system-ui" font-weight="600">PLATEAU</text>
+<rect x="277" y="32" width="230" height="288" fill="#BFBAB3" opacity="0.06"/>
+<text x="392" y="50" text-anchor="middle" font-size="9" fill="#BFBAB3" font-family="DM Sans,system-ui" font-weight="600">DEAD</text>
+<rect x="527" y="32" width="155" height="288" fill="#2D8B46" opacity="0.04"/>
+<text x="604" y="50" text-anchor="middle" font-size="9" fill="#2D8B46" font-family="DM Sans,system-ui" font-weight="600">CONVERGE</text>
+<!-- Bars: 63=136.55, 64=145.27, 65=136.99, 80=1345.8, 96=1270.7, 105=1359.9, 110=134.98, 128=138.07 -->
+<!-- cost_to_y: y = 320 - cost * 0.2057 -->
+<!-- 137 → 320 - 28 = 292. 145 → 320 - 30 = 290. 1346 → 320 - 277 = 43. 1271 → 320 - 261 = 59. 1360 → 320 - 280 = 40. 135 → 320 - 28 = 292. 138 → 320 - 28 = 292 -->
+<!-- Width 63: cost 136.55 -->
+<rect x="110" y="292" width="50" height="28" rx="3" fill="#D4846A" opacity="0.8"/>
+<text x="135" y="288" text-anchor="middle" font-size="9" fill="#D4846A" font-family="DM Sans,system-ui" font-weight="600">137</text>
+<text x="135" y="345" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">63</text>
+<!-- Width 64: cost 145.27 -->
+<rect x="180" y="290" width="50" height="30" rx="3" fill="#C45D3E" opacity="0.85"/>
+<text x="205" y="286" text-anchor="middle" font-size="9" fill="#C45D3E" font-family="DM Sans,system-ui" font-weight="600">145</text>
+<text x="205" y="345" text-anchor="middle" font-size="10" fill="#C45D3E" font-family="DM Sans,system-ui" font-weight="700">64</text>
+<!-- Width 65: cost 136.99 -->
+<rect x="247" y="292" width="50" height="28" rx="3" fill="#D4846A" opacity="0.8"/>
+<text x="272" y="288" text-anchor="middle" font-size="9" fill="#D4846A" font-family="DM Sans,system-ui" font-weight="600">137</text>
+<text x="272" y="345" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">65</text>
+<!-- Width 80: cost 1345.8 -->
+<rect x="317" y="43" width="50" height="277" rx="3" fill="#BFBAB3" opacity="0.6"/>
+<text x="342" y="70" text-anchor="middle" font-size="9" fill="#4A4A4A" font-family="DM Sans,system-ui" font-weight="600">1346</text>
+<text x="342" y="345" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">80</text>
+<!-- Width 96: cost 1270.7 -->
+<rect x="387" y="59" width="50" height="261" rx="3" fill="#BFBAB3" opacity="0.6"/>
+<text x="412" y="55" text-anchor="middle" font-size="9" fill="#4A4A4A" font-family="DM Sans,system-ui" font-weight="600">1271</text>
+<text x="412" y="345" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">96</text>
+<!-- Width 105: cost 1359.9 -->
+<rect x="457" y="40" width="50" height="280" rx="3" fill="#BFBAB3" opacity="0.6"/>
+<text x="482" y="37" text-anchor="middle" font-size="9" fill="#4A4A4A" font-family="DM Sans,system-ui" font-weight="600">1360</text>
+<text x="482" y="345" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">105</text>
+<!-- Width 110: cost 134.98 -->
+<rect x="540" y="292" width="50" height="28" rx="3" fill="#2D8B46" opacity="0.75"/>
+<text x="565" y="288" text-anchor="middle" font-size="9" fill="#2D8B46" font-family="DM Sans,system-ui" font-weight="600">135</text>
+<text x="565" y="345" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">110</text>
+<!-- Width 128: cost 138.07 -->
+<rect x="610" y="292" width="50" height="28" rx="3" fill="#2D8B46" opacity="0.75"/>
+<text x="635" y="288" text-anchor="middle" font-size="9" fill="#2D8B46" font-family="DM Sans,system-ui" font-weight="600">138</text>
+<text x="635" y="345" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">128</text>
+</svg>

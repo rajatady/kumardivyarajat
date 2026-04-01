@@ -1,0 +1,173 @@
+---
+title: 'Grokking has two phases, and you can see the boundary'
+description: >-
+  A component-freezing ablation study on modular division reveals that grokking
+  isn't one process. It's two: infrastructure setup, then computational
+  reorganization. The boundary between them is sharp and measurable.
+date: '2026-04-01'
+tags:
+  - grokking
+  - mechanistic-interpretability
+  - ablation
+  - transformers
+  - experiments
+published: true
+relatedPosts:
+  - what-if-pretrained-weights-are-a-genome-not-a-brain
+  - pretrained-models-converge-to-deterministic-computational-subspaces
+---
+
+Grokking is one of the strangest things neural networks do. First described by Power et al. [[1]](#ref-1), the phenomenon is this: a model memorizes its training data perfectly - 100% accuracy - and then sits there for thousands of steps, doing nothing on the test set. Zero generalization. And then, suddenly, it generalizes. Not gradually. Suddenly. Test accuracy jumps from near-zero to near-perfect in a few hundred steps.
+
+The standard explanation is that training has multiple phases: memorization, then circuit formation, then cleanup (weight decay compresses the memorized solution into a generalizing one). This was established by Nanda et al. [[2]](#ref-2) and is well-accepted.
+
+But I wanted to ask a more operational question. Not "what phases exist?" but **"which parts of the network are needed during which phase?"** If I freeze a component at one point in training, grokking dies. If I freeze the same component later, grokking survives. Where exactly is that boundary? And what does it tell us?
+
+<Emphasis>If I freeze a component at one point in training, grokking dies. If I freeze the same component later, grokking survives. Where exactly is that boundary?</Emphasis>
+
+## The setup
+
+I trained a small transformer (4 layers, 128 hidden, 820K parameters) on modular division: given `a` and `b`, predict `(a / b) mod 97`. The training set is 50% of all valid pairs. AdamW optimizer, learning rate 3e-4, weight decay 0.3, batch size 64.
+
+This is a standard grokking setup. The model memorizes the training set by around step 1,500 and doesn't generalize until roughly step 15,000. Here's what that looks like:
+
+<Chart src="grok-curve.svg" />
+
+By step 2,000, the model has perfectly memorized every training example. But it has learned nothing generalizable. Test accuracy is 2%. The gap between what it knows and what it understands is 98 percentage points.
+
+That gap persists for over ten thousand steps. Then it collapses.
+
+<Chart src="grok-gap.svg" />
+
+The question is: what is the network doing during those 13,000 steps of apparent silence? The test accuracy says "nothing." But that can't be true. Something must be changing internally for generalization to suddenly appear.
+
+## The experiment: freeze and continue
+
+I saved checkpoints at two moments during training:
+
+- **Step 7,000** — deep in the memorization plateau. Train accuracy is 100%, test accuracy is 2%. Generalization has not started.
+- **Step 11,000** — still in the plateau, but closer to the grokking onset. Train accuracy still 100%, test accuracy still around 3-5%.
+
+From each checkpoint, I loaded the model, froze one component (set its parameters to `requires_grad = False`), and continued training for 10,000 more steps with everything else unchanged. Same optimizer, same learning rate, same weight decay. Then I checked: did the model still grok?
+
+I tested 11 interventions: freezing the entry layer, the middle layers, the exit layer, the exit attention, the exit MLP, all attention, all MLP, the output head, the embeddings, and removing weight decay.
+
+The full experiment code (820K parameter model, ~20 minutes on any GPU):
+
+<Code src="grokking_ablation.py" title="grokking_ablation.py" collapsed />
+
+The results split into three clean categories.
+
+## What always blocks grokking
+
+Some interventions kill generalization regardless of when you apply them.
+
+Removing weight decay: test accuracy stays at 3% from step 7,000 and 9% from step 11,000. This confirms what's already established - weight decay is the compressive force that drives grokking [[1]](#ref-1), [[3]](#ref-3). Without it, the network stays in its memorized solution forever.
+
+Freezing the middle layers (L1 and L2): test accuracy stays at 4% and 9%. The middle layers are where the actual computation happens. Freeze them and the network cannot reorganize its internal algorithm.
+
+Freezing all attention layers or all MLP layers: also blocked. Both component types are needed in the middle layers for the generalizing circuit to form.
+
+## What never blocks grokking
+
+Freezing the embeddings: the model groks from both checkpoints. 77% from step 7,000, 99% from step 11,000. The embeddings are already "done" before the model even finishes memorizing. They don't need to change for generalization to happen.
+
+This aligns with recent work by Xu et al. [[4]](#ref-4), who showed that transferring embeddings from a weaker model eliminates the grokking delay entirely. Separately, AlQuabeh et al. [[5]](#ref-5) showed that MLPs without embeddings generalize immediately - it's the embedding-weight coupling that causes the delay in the first place. Embeddings lock in early. They're infrastructure.
+
+## The phase-dependent result
+
+This is the finding I didn't expect. Three components — the entry layer, the exit MLP, and the output head — show completely different behavior depending on **when** you freeze them.
+
+Freeze the entry layer at step 7,000: blocked. Test accuracy reaches only 32%.
+Freeze the entry layer at step 11,000: grokked. Test accuracy reaches 96%.
+
+Same component. Same model. Same training. Different checkpoint. Opposite outcome.
+
+Here's what this looks like for all interventions from checkpoint 7,000:
+
+<Chart src="grok-7k-trajectories.svg" />
+
+From step 7,000, most freezing interventions kill grokking. The trajectories cluster at the bottom. Only the baseline, frozen embeddings, and frozen exit attention reach meaningful test accuracy.
+
+Now the same interventions from step 11,000:
+
+<Chart src="grok-11k-trajectories.svg" />
+
+The picture flips. From step 11,000, entry, exit MLP, and the output head can all be frozen and grokking still happens. The lines that were stuck at the bottom from 7K are now climbing to 86-96%.
+
+But the middle layers and weight decay are still essential. Freeze the middle layers from step 11,000 and you get 9% — same as from step 7,000. The computation needs to continue reorganizing regardless.
+
+<Emphasis>Between step 7,000 and step 11,000, something completes. The entry layer, exit MLP, and output head finish their job. After that, they're dispensable. Only the middle layers still matter.</Emphasis>
+
+## The phase boundary
+
+Here's the same data as a direct comparison. Each pair of bars shows the same intervention applied at the two different checkpoints:
+
+<Chart src="grok-phase-boundary.svg" />
+
+The left side of the chart is the finding. Entry layer, exit MLP, output head — all go from blocked (grey) to grokked (green) between the two checkpoints. The right side shows what never changes: middle layers and weight decay are essential at both checkpoints.
+
+The full picture:
+
+| Intervention | From step 7K | From step 11K | Category |
+|---|---|---|---|
+| baseline | 92% | 97% | — |
+| **remove weight decay** | **3%** | **9%** | always blocks |
+| **freeze middle layers** | **4%** | **9%** | always blocks |
+| **freeze all attention** | **3%** | **39%** | always blocks |
+| **freeze all MLP** | **6%** | **13%** | always blocks |
+| freeze entry layer | 32% → | 96% | phase-dependent |
+| freeze exit MLP | 21% → | 86% | phase-dependent |
+| freeze output head | 41% → | 95% | phase-dependent |
+| freeze embeddings | 77% | 99% | never blocks |
+| freeze exit attention | 67% | 65% | never blocks |
+
+## Two phases
+
+The data tells a clean story. Grokking isn't one process. It's two sequential processes with a measurable boundary between them.
+
+<Chart src="grok-two-phases.svg" />
+
+**Phase 1: Infrastructure** (steps 0 to ~11,000). The entry layer learns how to route inputs. The exit layer and output head learn how to format outputs. This is happening silently during the memorization plateau — test accuracy doesn't move, but the network is building the scaffolding that generalization will need. The embeddings finish even earlier than this.
+
+**Phase 2: Computation** (steps ~11,000 to grokking). The infrastructure is locked in. Now the middle layers reorganize their internal circuits from a memorizing algorithm to a generalizing one. Weight decay provides the compressive force. This is the phase where the actual algorithmic insight gets encoded.
+
+<Emphasis>The memorization plateau isn't silence. It's construction. The network is building infrastructure that it will later need.</Emphasis>
+
+## What this doesn't tell us
+
+This experiment has clear limitations.
+
+It's one model, one task, one set of hyperparameters. Modular division on a 4-layer transformer. I haven't tested whether the same two-phase structure appears in larger models, different tasks, or different architectures. It might. It might not.
+
+The phase boundary at step ~11,000 is specific to this run. On a different random seed or with different weight decay, it would land somewhere else. The claim isn't "step 11,000 is special." The claim is "there exists a boundary where component necessity changes, and you can find it by freezing and continuing."
+
+I also haven't explained **what** the entry layer learns during Phase 1. I can see that it's needed before step 11,000 and not after. But I don't have a mechanistic account of what it's doing. The next experiment would be to analyze the entry layer's attention patterns and MLP activations at the two checkpoints to understand what "infrastructure complete" actually looks like in terms of learned representations.
+
+The three-phase model from Nanda et al. [[2]](#ref-2) (memorization, circuit formation, cleanup) is related but defined differently. Their phases come from continuous progress measures on Fourier components. Mine come from a binary operational test: freeze it and see if grokking survives. Recent theoretical work [[6]](#ref-6) frames grokking as a norm-driven representational phase transition, which may explain why the infrastructure phase completes when it does. The two framings are compatible but I haven't formally connected them.
+
+## Why this matters
+
+The practical implication is for anyone studying or trying to accelerate grokking. If you know which phase the network is in, you know which parameters to focus on. During Phase 1, gradient updates to the entry and exit layers are doing critical work. During Phase 2, you could freeze them and save compute.
+
+The theoretical implication is more speculative. If transformers consistently build infrastructure before reorganizing computation, that's a principle about how these networks learn. Not "everything changes at once" but "scaffolding first, algorithm second." That pattern — if it holds beyond this one experiment — would be a useful inductive bias for understanding training dynamics more generally.
+
+The full experiment code is embedded above, and the summary results are below.
+
+<Code src="grokking_ablation_results.json" title="grokking_ablation_results.json" collapsed />
+
+---
+
+## References
+
+<a id="ref-1"></a>1. Power, A., Burda, Y., Edwards, H., Babuschkin, I., & Misra, V. (2022). Grokking: Generalization beyond overfitting on small algorithmic datasets. [arXiv:2201.02177](https://arxiv.org/abs/2201.02177)
+
+<a id="ref-2"></a>2. Nanda, N., Chan, L., Lieberum, T., Smith, J., & Steinhardt, J. (2023). Progress measures for grokking via mechanistic interpretability. [arXiv:2301.05217](https://arxiv.org/abs/2301.05217)
+
+<a id="ref-3"></a>3. Liu, Z., Kitouni, O., Nolte, N., Michaud, E. J., Tegmark, M., & Williams, M. (2023). Omnigrok: Grokking beyond algorithmic data. [arXiv:2310.06110](https://arxiv.org/abs/2310.06110)
+
+<a id="ref-4"></a>4. Xu, Z., et al. (2025). Let me grok for you: Accelerating grokking via embedding transfer from a weaker model. [arXiv:2504.13292](https://arxiv.org/abs/2504.13292)
+
+<a id="ref-5"></a>5. AlQuabeh, H., et al. (2025). Mechanistic insights into grokking from the embedding layer. [arXiv:2505.15624](https://arxiv.org/abs/2505.15624)
+
+<a id="ref-6"></a>6. Lyu, K., et al. (2025). The norm-separation delay law of grokking: A first-principles theory of delayed generalization. [arXiv:2603.13331](https://arxiv.org/abs/2603.13331)

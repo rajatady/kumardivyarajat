@@ -1,0 +1,30 @@
+<svg viewBox="0 0 720 340" style="width:100%;display:block">
+<rect width="720" height="340" fill="#FDFBF7" rx="6"/>
+<line x1="72" y1="32" x2="72" y2="280" stroke="#E8E4DE" stroke-width="0.5"/>
+<line x1="72" y1="280" x2="692" y2="280" stroke="#E8E4DE" stroke-width="0.5"/>
+<text x="14" y="160" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui" transform="rotate(-90 14 160)">Train acc − Test acc</text>
+<text x="66" y="284" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">0%</text>
+<line x1="72" y1="218" x2="692" y2="218" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="222" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">25%</text>
+<line x1="72" y1="156" x2="692" y2="156" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="160" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">50%</text>
+<line x1="72" y1="94" x2="692" y2="94" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="98" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">75%</text>
+<line x1="72" y1="32" x2="692" y2="32" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="36" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">100%</text>
+<text x="72" y="300" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">0</text>
+<text x="175" y="300" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">5K</text>
+<text x="279" y="300" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">10K</text>
+<text x="382" y="300" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">15K</text>
+<text x="485" y="300" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">20K</text>
+<text x="589" y="300" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">25K</text>
+<text x="692" y="300" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">30K</text>
+<text x="382" y="330" text-anchor="middle" font-size="11" fill="#8B8680" font-family="DM Sans,system-ui">Training steps</text>
+<polygon fill="#C45D3E" opacity="0.12" points="72,280 82,261 93,162 103,48 113,36 124,36 134,32 144,35 155,40 165,36 175,36 186,43 196,32 207,40 217,36 227,35 238,43 248,40 258,59 269,44 279,42 289,46 300,46 310,48 321,84 331,77 341,131 351,131 362,144 372,125 382,146 393,237 403,266 413,261 434,268 444,264 454,261 465,237 475,280 485,280 496,280"/>
+<polyline fill="none" stroke="#C45D3E" stroke-width="2" points="72,280 82,261 93,162 103,48 113,36 124,36 134,32 144,35 155,40 165,36 175,36 186,43 196,32 207,40 217,36 227,35 238,43 248,40 258,59 269,44 279,42 289,46 300,46 310,48 321,84 331,77 341,131 351,131 362,144 372,125 382,146 393,237 403,266 413,261 434,268 444,264 454,261 465,237 475,280 485,280 496,280"/>
+<text x="140" y="28" font-size="10" font-weight="600" fill="#C45D3E" font-family="DM Sans,system-ui">Peak gap: 100%</text>
+<text x="140" y="42" font-size="9" fill="#8B8680" font-family="DM Sans,system-ui">Perfect train, zero test</text>
+<line x1="475" y1="275" x2="475" y2="260" stroke="#2D8B46" stroke-width="1"/>
+<text x="478" y="256" font-size="9" font-weight="600" fill="#2D8B46" font-family="DM Sans,system-ui">Gap collapses to 0</text>
+<text x="478" y="269" font-size="9" fill="#8B8680" font-family="DM Sans,system-ui">at step ~19K</text>
+</svg>

@@ -7,38 +7,33 @@ export default function Home() {
   const posts = getAllPosts().slice(0, 3);
   const projects = getFeaturedProjects();
 
-  const websiteLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Kumar Divya Rajat",
-    url: "https://kumardivyarajat.com",
-    description:
-      "Personal blog and portfolio. Writing about software engineering, design, and building things.",
-  };
-
-  const personLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Kumar Divya Rajat",
-    url: "https://kumardivyarajat.com",
-    image: "https://kumardivyarajat.com/icon-512.png",
-    sameAs: [
-      "https://github.com/rajatady",
-      "https://x.com/Rajat225",
-      "https://in.linkedin.com/in/rajatady",
-    ],
-    jobTitle: "Software Engineer",
-  };
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Kumar Divya Rajat",
+      url: "https://kumardivyarajat.com",
+      description:
+        "Personal blog and portfolio. Writing about software engineering, design, and building things.",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Kumar Divya Rajat",
+      url: "https://kumardivyarajat.com",
+      sameAs: [
+        "https://github.com/rajatady",
+        "https://x.com/Rajat225",
+      ],
+      jobTitle: "Software Engineer",
+    },
+  ];
 
   return (
     <div className="mx-auto max-w-4xl px-6">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Hero */}
       <section className="pt-20 pb-16 border-b border-border">

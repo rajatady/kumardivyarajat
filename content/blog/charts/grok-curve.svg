@@ -1,0 +1,40 @@
+<svg viewBox="0 0 720 400" style="width:100%;display:block">
+<rect width="720" height="400" fill="#FDFBF7" rx="6"/>
+<line x1="72" y1="32" x2="72" y2="320" stroke="#E8E4DE" stroke-width="0.5"/>
+<line x1="72" y1="320" x2="692" y2="320" stroke="#E8E4DE" stroke-width="0.5"/>
+<text x="14" y="180" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui" transform="rotate(-90 14 180)">Accuracy</text>
+<text x="66" y="324" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">0%</text>
+<line x1="72" y1="262" x2="692" y2="262" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="266" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">20%</text>
+<line x1="72" y1="204" x2="692" y2="204" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="208" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">40%</text>
+<line x1="72" y1="147" x2="692" y2="147" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="151" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">60%</text>
+<line x1="72" y1="89" x2="692" y2="89" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="93" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">80%</text>
+<line x1="72" y1="32" x2="692" y2="32" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="66" y="36" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">100%</text>
+<text x="72" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">0</text>
+<text x="175" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">5K</text>
+<text x="279" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">10K</text>
+<text x="382" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">15K</text>
+<text x="485" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">20K</text>
+<text x="589" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">25K</text>
+<text x="692" y="340" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">30K</text>
+<text x="382" y="380" text-anchor="middle" font-size="11" fill="#8B8680" font-family="DM Sans,system-ui">Training steps</text>
+<rect x="103" y="32" width="221" height="288" fill="#D4846A" opacity="0.04"/>
+<rect x="324" y="32" width="368" height="288" fill="#C45D3E" opacity="0.04"/>
+<polyline fill="none" stroke="#D4846A" stroke-width="2" opacity="0.6" points="72,318 82,295 93,176 103,47 113,32 124,32 134,32 144,32 155,35 165,32 175,32 186,32 196,32 207,37 217,32 227,32 238,32 248,32 258,116 269,32 279,32 289,32 300,32 310,75 321,32 331,32 341,32 351,32 362,32 372,32 382,35 393,32 403,32 413,32 434,32 444,32 454,246 465,32 475,32 485,32 496,32 506,32 517,32 527,32 537,35 548,32 558,32 568,32 579,32 589,32 599,32 610,32 620,32 630,32 641,32 651,32 661,32 672,32 682,32 692,32"/>
+<polyline fill="none" stroke="#C45D3E" stroke-width="2.5" points="72,318 82,318 93,313 103,318 113,315 124,315 134,320 144,318 155,313 165,315 175,315 186,309 196,320 207,313 217,315 227,318 238,309 248,313 258,309 269,306 279,309 289,304 300,304 310,302 321,273 331,268 341,205 351,205 362,189 372,212 382,187 393,86 403,47 413,54 434,42 444,49 454,54 465,295 475,32 485,32 496,32 506,32 517,32 527,32 537,34 548,32 558,32 568,32 579,32 589,32 599,32 610,32 620,32 630,32 641,32 651,32 661,32 672,32 682,32 692,32"/>
+<line x1="155" y1="32" x2="155" y2="315" stroke="#8B8680" stroke-width="0.5" stroke-dasharray="2 2"/>
+<text x="161" y="175" font-size="9" fill="#8B8680" font-family="DM Sans,system-ui">train: 100%</text>
+<text x="161" y="190" font-size="9" fill="#8B8680" font-family="DM Sans,system-ui">test: ~2%</text>
+<text x="161" y="205" font-size="9" font-weight="600" fill="#C45D3E" font-family="DM Sans,system-ui">gap: 98%</text>
+<line x1="382" y1="82" x2="395" y2="58" stroke="#C45D3E" stroke-width="1"/>
+<text x="398" y="55" font-size="9" font-weight="600" fill="#C45D3E" font-family="DM Sans,system-ui">sudden generalization</text>
+<rect x="540" y="62" width="145" height="44" rx="5" fill="#FDFBF7" stroke="#E8E4DE" stroke-width="0.5"/>
+<line x1="550" y1="76" x2="570" y2="76" stroke="#D4846A" stroke-width="2" opacity="0.6"/>
+<text x="576" y="80" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">Train accuracy</text>
+<line x1="550" y1="92" x2="570" y2="92" stroke="#C45D3E" stroke-width="2.5"/>
+<text x="576" y="96" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">Test accuracy</text>
+</svg>

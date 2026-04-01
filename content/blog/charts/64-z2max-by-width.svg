@@ -1,0 +1,59 @@
+<svg viewBox="0 0 720 400" style="width:100%;display:block">
+<rect width="720" height="400" fill="#FDFBF7" rx="6"/>
+<line x1="80" y1="32" x2="80" y2="320" stroke="#E8E4DE" stroke-width="0.5"/>
+<line x1="80" y1="320" x2="692" y2="320" stroke="#E8E4DE" stroke-width="0.5"/>
+<text x="14" y="180" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui" transform="rotate(-90 14 180)">Z2 max (pre-activation peak, layer 2)</text>
+<text x="386" y="380" text-anchor="middle" font-size="11" fill="#8B8680" font-family="DM Sans,system-ui">First hidden layer width</text>
+<!-- Y axis: -5 to 50. Scale: 320=-5, 32=50. Range 55. Per unit: 288/55 = 5.236 px -->
+<!-- y = 320 - (val+5)*5.236 -->
+<text x="74" y="324" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">-5</text>
+<!-- 0 line -->
+<line x1="80" y1="294" x2="692" y2="294" stroke="#C45D3E" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.4"/>
+<text x="74" y="298" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">0</text>
+<line x1="80" y1="242" x2="692" y2="242" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="246" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">10</text>
+<line x1="80" y1="190" x2="692" y2="190" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="194" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">20</text>
+<line x1="80" y1="137" x2="692" y2="137" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="141" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">30</text>
+<line x1="80" y1="85" x2="692" y2="85" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="89" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">40</text>
+<line x1="80" y1="32" x2="692" y2="32" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="36" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">50</text>
+<!-- Bars. val_to_y: y = 320 - (val+5)*5.236, height = 294 - y (from zero line) -->
+<!-- Width 63: Z2_max = 8.74 → y = 320 - 13.74*5.236 = 248. h = 294-248 = 46 -->
+<rect x="110" y="248" width="50" height="46" rx="3" fill="#D4846A" opacity="0.8"/>
+<text x="135" y="244" text-anchor="middle" font-size="9" fill="#D4846A" font-family="DM Sans,system-ui" font-weight="600">8.7</text>
+<text x="135" y="340" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">63</text>
+<!-- Width 64: Z2_max = 47.26 → y = 320 - 52.26*5.236 = 46. h = 294-46 = 248 -->
+<rect x="180" y="46" width="50" height="248" rx="3" fill="#C45D3E" opacity="0.9"/>
+<text x="205" y="42" text-anchor="middle" font-size="11" fill="#C45D3E" font-family="DM Sans,system-ui" font-weight="700">47.3</text>
+<text x="205" y="340" text-anchor="middle" font-size="10" fill="#C45D3E" font-family="DM Sans,system-ui" font-weight="700">64</text>
+<!-- Width 65: Z2_max = 9.47 → y = 320 - 14.47*5.236 = 244. h = 50 -->
+<rect x="247" y="244" width="50" height="50" rx="3" fill="#D4846A" opacity="0.8"/>
+<text x="272" y="240" text-anchor="middle" font-size="9" fill="#D4846A" font-family="DM Sans,system-ui" font-weight="600">9.5</text>
+<text x="272" y="340" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">65</text>
+<!-- Width 80: Z2_max = -0.54 → y = 320 - 4.46*5.236 = 297. Below zero! h from 294 down = bar goes below zero line -->
+<rect x="317" y="294" width="50" height="3" rx="1" fill="#BFBAB3" opacity="0.7"/>
+<text x="342" y="312" text-anchor="middle" font-size="9" fill="#BFBAB3" font-family="DM Sans,system-ui">-0.5</text>
+<text x="342" y="340" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">80</text>
+<!-- Width 96: Z2_max = -1.34 → below zero -->
+<rect x="387" y="294" width="50" height="7" rx="1" fill="#BFBAB3" opacity="0.7"/>
+<text x="412" y="312" text-anchor="middle" font-size="9" fill="#BFBAB3" font-family="DM Sans,system-ui">-1.3</text>
+<text x="412" y="340" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">96</text>
+<!-- Width 105: Z2_max = -1.47 → below zero -->
+<rect x="457" y="294" width="50" height="8" rx="1" fill="#BFBAB3" opacity="0.7"/>
+<text x="482" y="312" text-anchor="middle" font-size="9" fill="#BFBAB3" font-family="DM Sans,system-ui">-1.5</text>
+<text x="482" y="340" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">105</text>
+<!-- Width 110: Z2_max = 13.96 → y = 320 - 18.96*5.236 = 221. h = 73 -->
+<rect x="540" y="221" width="50" height="73" rx="3" fill="#2D8B46" opacity="0.75"/>
+<text x="565" y="217" text-anchor="middle" font-size="9" fill="#2D8B46" font-family="DM Sans,system-ui" font-weight="600">14.0</text>
+<text x="565" y="340" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">110</text>
+<!-- Width 128: Z2_max = 24.49 → y = 320 - 29.49*5.236 = 166. h = 128 -->
+<rect x="610" y="166" width="50" height="128" rx="3" fill="#2D8B46" opacity="0.75"/>
+<text x="635" y="162" text-anchor="middle" font-size="9" fill="#2D8B46" font-family="DM Sans,system-ui" font-weight="600">24.5</text>
+<text x="635" y="340" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">128</text>
+<!-- Annotation arrow -->
+<line x1="205" y1="60" x2="235" y2="80" stroke="#C45D3E" stroke-width="1"/>
+<text x="240" y="78" font-size="9" fill="#C45D3E" font-family="DM Sans,system-ui" font-weight="600">5x larger than neighbors</text>
+</svg>

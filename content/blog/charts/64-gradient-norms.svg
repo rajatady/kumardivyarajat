@@ -1,0 +1,58 @@
+<svg viewBox="0 0 720 380" style="width:100%;display:block">
+<rect width="720" height="380" fill="#FDFBF7" rx="6"/>
+<line x1="80" y1="32" x2="80" y2="300" stroke="#E8E4DE" stroke-width="0.5"/>
+<line x1="80" y1="300" x2="692" y2="300" stroke="#E8E4DE" stroke-width="0.5"/>
+<text x="14" y="170" text-anchor="middle" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui" transform="rotate(-90 14 170)">Gradient norm (dW) at epoch 100</text>
+<text x="386" y="360" text-anchor="middle" font-size="11" fill="#8B8680" font-family="DM Sans,system-ui">First hidden layer width</text>
+<!-- Y axis: 0 to 55. Scale: 300=0, 32=55. Per unit: 268/55 = 4.873 -->
+<text x="74" y="304" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">0</text>
+<line x1="80" y1="251" x2="692" y2="251" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="255" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">10</text>
+<line x1="80" y1="203" x2="692" y2="203" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="207" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">20</text>
+<line x1="80" y1="154" x2="692" y2="154" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="158" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">30</text>
+<line x1="80" y1="105" x2="692" y2="105" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="109" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">40</text>
+<line x1="80" y1="56" x2="692" y2="56" stroke="#E8E4DE" stroke-width="0.3"/>
+<text x="74" y="60" text-anchor="end" font-size="10" fill="#8B8680" font-family="DM Sans,system-ui">50</text>
+<!-- Grouped bars: dW1 (light), dW2 (medium), dW3 (dark) per width -->
+<!-- val_to_y: y = 300 - val*4.873, h = 300-y -->
+<!-- Width 63: dW1=18.10, dW2=9.70, dW3=2.91 -->
+<rect x="100" y="212" width="16" height="88" rx="2" fill="#D4846A" opacity="0.5"/>
+<rect x="118" y="253" width="16" height="47" rx="2" fill="#D4846A" opacity="0.8"/>
+<rect x="136" y="286" width="16" height="14" rx="2" fill="#D4846A"/>
+<text x="126" y="330" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">63</text>
+<!-- Width 64: dW1=24.50, dW2=37.47, dW3=25.20 — THE OUTLIER -->
+<rect x="185" y="181" width="16" height="119" rx="2" fill="#C45D3E" opacity="0.5"/>
+<rect x="203" y="118" width="16" height="182" rx="2" fill="#C45D3E" opacity="0.9"/>
+<rect x="221" y="177" width="16" height="123" rx="2" fill="#C45D3E"/>
+<text x="208" y="330" text-anchor="middle" font-size="10" fill="#C45D3E" font-family="DM Sans,system-ui" font-weight="700">64</text>
+<!-- Width 65: dW1=16.86, dW2=10.36, dW3=2.63 -->
+<rect x="270" y="218" width="16" height="82" rx="2" fill="#D4846A" opacity="0.5"/>
+<rect x="288" y="250" width="16" height="50" rx="2" fill="#D4846A" opacity="0.8"/>
+<rect x="306" y="287" width="16" height="13" rx="2" fill="#D4846A"/>
+<text x="293" y="330" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">65</text>
+<!-- Width 110: dW1=14.04, dW2=4.23, dW3=1.05 -->
+<rect x="440" y="232" width="16" height="68" rx="2" fill="#2D8B46" opacity="0.5"/>
+<rect x="458" y="279" width="16" height="21" rx="2" fill="#2D8B46" opacity="0.8"/>
+<rect x="476" y="295" width="16" height="5" rx="2" fill="#2D8B46"/>
+<text x="463" y="330" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">110</text>
+<!-- Width 128: dW1=19.72, dW2=30.64, dW3=1.50 -->
+<rect x="525" y="204" width="16" height="96" rx="2" fill="#2D8B46" opacity="0.5"/>
+<rect x="543" y="151" width="16" height="149" rx="2" fill="#2D8B46" opacity="0.8"/>
+<rect x="561" y="293" width="16" height="7" rx="2" fill="#2D8B46"/>
+<text x="548" y="330" text-anchor="middle" font-size="10" fill="#4A4A4A" font-family="DM Sans,system-ui">128</text>
+<!-- Arrow to 64's dW2 -->
+<line x1="211" y1="108" x2="250" y2="88" stroke="#C45D3E" stroke-width="1"/>
+<text x="254" y="82" font-size="9" fill="#C45D3E" font-family="DM Sans,system-ui" font-weight="600">dW2 = 37.5</text>
+<text x="254" y="94" font-size="9" fill="#C45D3E" font-family="DM Sans,system-ui">3.6x larger than width 63</text>
+<!-- Legend -->
+<rect x="520" y="42" width="165" height="54" rx="5" fill="#FDFBF7" stroke="#E8E4DE" stroke-width="0.5"/>
+<rect x="530" y="53" width="10" height="10" rx="2" fill="#8B8680" opacity="0.5"/>
+<text x="546" y="62" font-size="9" fill="#4A4A4A" font-family="DM Sans,system-ui">dW1 (input layer)</text>
+<rect x="530" y="68" width="10" height="10" rx="2" fill="#8B8680" opacity="0.8"/>
+<text x="546" y="77" font-size="9" fill="#4A4A4A" font-family="DM Sans,system-ui">dW2 (hidden layer)</text>
+<rect x="530" y="83" width="10" height="10" rx="2" fill="#8B8680"/>
+<text x="546" y="92" font-size="9" fill="#4A4A4A" font-family="DM Sans,system-ui">dW3 (output layer)</text>
+</svg>
