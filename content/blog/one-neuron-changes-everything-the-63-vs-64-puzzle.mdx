@@ -20,21 +20,21 @@ relatedPosts:
 
 Here's a puzzle. I have a 3-layer MLP learning the simplest nonlinear function I can think of: F = m * a. Force equals mass times acceleration. Two inputs, one output, multiplication. The architecture is `[2, N, 64, 1]` with LeakyReLU activations.
 
-I train it with N = 63. It gets stuck. Cost plateaus at around 137 and refuses to drop further.
+I train it with N = 63. It gets stuck. Cost plateaus around 137 and refuses to drop further.
 
-I train it with N = 64. One more neuron. Same seed, same learning rate, same everything else. And it initially looks *worse* - cost sits at 1,430 for *seventy epochs* while the 63-neuron version has already settled. Then, around epoch 80, the 64-neuron network does something violent. The cost crashes from 1,252 to 151 in twenty epochs. A phase transition.
+I train it with N = 64. One more neuron. Same seed, same learning rate, same everything else. And it initially looks *worse* - cost sits at 1,430 for *seventy epochs* while the 63-neuron version has already settled. Then, around epoch 80, the 64-neuron network does something violent. Cost crashes from 1,252 to 151 in twenty epochs. A phase transition.
 
 Same task. Same optimizer. One neuron difference. Completely different training story.
 
-<Emphasis>One neuron. Same seed, same learning rate, same data. The 63-neuron network plateaus. The 64-neuron network appears dead for 70 epochs, then suddenly collapses to a better solution.</Emphasis>
+<Emphasis>One neuron. Same seed, same learning rate, same data. The 63-neuron network plateaus politely. The 64-neuron network looks dead for 70 epochs, then suddenly collapses to a better solution.</Emphasis>
 
 What's going on?
 
 ## The setup
 
-The task is deliberately trivial. Generate 1,000 random (m, a) pairs where m and a are uniform in [1, 10]. The target is F = m * a. Split 70/30 into train and validation. Train a fully-connected network with He initialization, LeakyReLU (alpha=0.01), and vanilla gradient descent at learning rate 1e-5 for 150 epochs.
+The task is deliberately trivial. Generate 1,000 random (m, a) pairs where m and a are uniform in [1, 10]. Target is F = m * a. Split 70/30 into train and validation. Train a fully-connected network with He initialization, LeakyReLU (alpha=0.01), and vanilla gradient descent at learning rate 1e-5 for 150 epochs.
 
-The architecture is `[2, N, 64, 1]` - two inputs, a variable-width first hidden layer, a fixed 64-wide second hidden layer, one output. I sweep the first layer width across eight values: 63, 64, 65, 80, 96, 105, 110, 128.
+The architecture is `[2, N, 64, 1]` - two inputs, a variable-width first hidden layer, a fixed 64-wide second hidden layer, one linear output. I sweep the first layer width across eight values: 63, 64, 65, 80, 96, 105, 110, 128.
 
 All eight networks use `np.random.seed(1)` for initialization.
 
@@ -44,9 +44,9 @@ I expected the results to be boring. Wider is better, maybe with diminishing ret
 
 Three completely different behaviors from the same task and the same code. The grey lines (widths 80, 96, 105) are stuck above cost 1,200 - basically dead. The warm lines (63, 65) drop quickly to ~137 and plateau. And then there's width 64 (the thick line), doing its own thing entirely - frozen for 70 epochs, then a dramatic collapse.
 
-## It's not monotonic
+## It gets weirder
 
-The first thing that surprised me is the final cost by width. If this were a simple capacity story - wider is better - you'd expect a smooth decline. That's not what happens.
+If this were a simple capacity story - wider is better - you'd expect a smooth curve. That's not what happens at all.
 
 <Chart src="64-cost-by-width.svg" />
 
@@ -60,29 +60,29 @@ I tracked every internal variable during training - activations, pre-activations
 
 <Chart src="64-three-regimes.svg" />
 
-**Plateau** (widths 63, 65): Activations are distributed across many neurons in layer 2. Nobody dominates. Z2_max hovers around 8-9. The network settles into a passable-but-mediocre solution where many neurons contribute small amounts. It can approximate multiplication as a sum of weak piecewise-linear functions, but it can't learn the sharp product structure. Cost: ~137.
+**Plateau** (widths 63, 65): Activations spread across many neurons in layer 2. Nobody dominates. Z2_max hovers around 8-9. The network settles into a passable-but-mediocre solution where many neurons contribute small amounts. It can approximate multiplication as a sum of weak piecewise-linear functions, but it can't learn the sharp product structure. Cost: ~137.
 
 **Dead** (widths 80, 96, 105): Every pre-activation in layer 2 is negative. Z2_max is below zero. LeakyReLU at alpha=0.01 means these neurons pass only 1% of their signal. The network is effectively disconnected between layers 1 and 2. Nothing gets through. The gradients flowing back are 100x weaker than they should be. Cost: ~1,300.
 
 **Converge** (widths 64, 110, 128): One or two neurons in layer 2 develop large positive activations. Z2_max shoots up to 14-48. These winners get full gradients (no LeakyReLU attenuation), so they grow faster, which makes them even more dominant. Rich get richer. The network concentrates its computation through a few dominant channels and actually learns the multiplication structure. Cost: ~135-145.
 
-## The smoking gun: Z2_max
+## The smoking gun
 
 The variable that separates the three regimes is Z2_max - the peak pre-activation in the second hidden layer at epoch 100.
 
 <Chart src="64-z2max-by-width.svg" />
 
-Width 64 has a Z2_max of 47.3 - five times larger than its neighbors at width 63 (8.7) and 65 (9.5). The dead regime widths have Z2_max below zero. The converge regime widths (110, 128) have Z2_max of 14-25.
+Width 64 has a Z2_max of 47.3 - five times larger than its neighbors at width 63 (8.7) and 65 (9.5). The dead regime widths have Z2_max below zero. The converge regime widths (110, 128) land at 14-25.
 
 This is the mechanism. LeakyReLU creates a 100x gradient asymmetry between positive and negative pre-activations. If your initialization happens to produce even one strongly positive neuron in layer 2, that neuron gets 100x more gradient signal than its negative neighbors. It grows. Its neighbors shrink further. Winner takes all.
 
-The gradient norms confirm this:
+The gradient norms confirm it:
 
 <Chart src="64-gradient-norms.svg" />
 
 Width 64's middle-layer gradient (dW2) is 37.5 - nearly 4x larger than width 63's 9.7. The signal is concentrated, not distributed. This is why the 64-neuron network can break out of the plateau that traps the 63-neuron version: it has a dominant channel funneling learning signal through.
 
-## But wait - why does one neuron matter?
+## So why does one neuron matter?
 
 Here's the part that really bothered me. 63 and 64 neurons, same seed. Why would one neuron change the activation landscape so dramatically?
 
@@ -90,9 +90,22 @@ I traced the random number generation. When you call `np.random.randn(2, 63)` fo
 
 That two-index offset means W2 for the 63-neuron network and W2 for the 64-neuron network are drawing from *completely different* parts of the random stream. The first layer weights share 126 out of 128 values. But the second layer - the layer that determines whether you get a dominant positive neuron or not - is initialized with entirely different random numbers.
 
+```python
+np.random.seed(1)
+seq_63_w1 = np.random.randn(2, 63)   # consumes 126 numbers
+seq_63_w2 = np.random.randn(63, 64)  # starts at index 126
+
+np.random.seed(1)
+seq_64_w1 = np.random.randn(2, 64)   # consumes 128 numbers
+seq_64_w2 = np.random.randn(64, 64)  # starts at index 128
+
+# W1 values identical up to element 126: True
+# W2 values identical: False — completely different!
+```
+
 <Emphasis>You think you're changing the architecture. You're actually changing the initialization. The extra neuron shifts the random seed offset for every subsequent weight matrix, giving you a completely different W2.</Emphasis>
 
-The 63-vs-64 difference has nothing to do with 63 or 64. It has to do with which slice of the random number generator happens to produce a neuron with a large positive pre-activation in layer 2, at position (something, something) in the weight matrix, for this particular data distribution.
+The 63-vs-64 difference has nothing to do with 63 or 64. It has to do with which slice of the random number generator happens to produce a neuron with a large positive pre-activation in layer 2, for this particular data distribution.
 
 ## Confirmation: the 20-seed test
 
@@ -100,7 +113,7 @@ To verify this, I ran both architectures across 20 different random seeds, train
 
 They're noisy. Some seeds favor 63. Some favor 64. The mean performance is roughly similar. Seed 1 just happened to give width 64 a lucky W2 that produced a dominant neuron, while width 63 with the same seed got a W2 where the activations were more uniform.
 
-The width sweep (32 through 128 with fine granularity around 60-68) shows the same thing: which regime you land in depends more on the interaction between seed and width than on width alone. There's no magic number. There's a phase boundary that you cross when initialization happens to produce the right conditions for winner-take-all dynamics.
+The width sweep with fine granularity around 60-68 shows the same thing: which regime you land in depends more on the interaction between seed and width than on width alone. There's no magic number. There's a phase boundary that you cross when initialization happens to produce the right conditions for winner-take-all dynamics.
 
 ## What multiplication demands
 
@@ -110,11 +123,7 @@ Multiplication requires the network to represent the *interaction* between input
 
 The plateau regime fails because distributed, uniform activations approximate multiplication as a sum of independent contributions from m and a. That gets you close (cost ~137) but can't capture the cross-term. The converge regime succeeds because concentrated activations through a dominant neuron can encode the interaction: that neuron's W1 weights form a direction in (m, a) space that captures the product structure.
 
-## The actual lesson
-
-I started this investigation thinking I'd found an architecture difference. I ended up finding an initialization story. And that's the real lesson.
-
-When you run an "architecture ablation" - change one thing about the model and compare - you're often not isolating what you think you're isolating. Changing the width from 63 to 64 changes the shape of every weight matrix downstream. If you're using the same random seed, those downstream matrices get different random values. Your "architecture comparison" is partially an "initialization comparison," and you'd never know unless you checked.
+## The results
 
 | Width | Final cost | Regime | Z2_max | dW2 norm | What happened |
 |-------|-----------|--------|--------|----------|---------------|
@@ -127,14 +136,32 @@ When you run an "architecture ablation" - change one thing about the model and c
 | 110 | 135 | Converge | 14.0 | 4.2 | Lucky initialization, clean convergence |
 | 128 | 138 | Converge | 24.5 | 30.6 | Dominant neuron, late phase transition |
 
-This is a cautionary tale for anyone doing hyperparameter sweeps. If your comparison uses the same random seed, you are not running a controlled experiment. The seed interacts with the architecture in ways that can produce spurious differences that look systematic but are actually coincidental. The fix is trivial: average over many seeds. But it's remarkable how often this doesn't happen, including in published work.
-
 ## What this doesn't tell me
 
 I ran this on a toy problem with a specific activation function (LeakyReLU at alpha=0.01). The 100x gradient asymmetry is what drives the winner-take-all dynamics. With ReLU (alpha=0), the dead neurons are truly dead and can't recover. With a smoother activation like GELU or SiLU, the asymmetry is less extreme and the three-regime structure might soften or disappear. I haven't tested that.
 
-I also haven't connected this to the initialization literature rigorously. The lottery ticket hypothesis is about *trained* networks containing sparse subnetworks that can match full performance. This is a related but distinct phenomenon: it's about *untrained* networks containing one lucky neuron whose initial activation happens to be large enough to trigger winner-take-all dynamics. The lottery ticket is found after training. This "lucky neuron" exists at initialization and determines the entire training trajectory.
+I also haven't connected this to the initialization literature rigorously. The lottery ticket hypothesis [[1]](#ref-1) is about *trained* networks containing sparse subnetworks that can match full performance. This is a related but distinct phenomenon: it's about *untrained* networks containing one lucky neuron whose initial activation happens to be large enough to trigger winner-take-all dynamics. The lottery ticket is found after training. This "lucky neuron" exists at initialization and determines the entire training trajectory.
 
 Whether this matters for large models is an open question. Transformers use different activation functions, different initialization schemes, and much larger hidden dimensions. The probability of landing in the dead regime decreases as width increases (more chances for at least one positive neuron). But the sensitivity to initialization is a general phenomenon, and the specific mechanism - activation-dependent gradient asymmetry creating winner-take-all dynamics - is not specific to toy problems.
 
-The experiment code and data are embedded in this post.
+## The actual lesson
+
+This is a cautionary tale for anyone doing hyperparameter sweeps. If your comparison uses the same random seed, you are not running a controlled experiment. The seed interacts with the architecture in ways that can produce spurious differences that look systematic but are actually coincidental. The fix is trivial: average over many seeds. But it's remarkable how often this doesn't happen, even in published work.
+
+I started this investigation thinking I'd found an architecture difference. I ended up finding an initialization story. And that reframing - not "63 vs 64" but "lucky W2 vs unlucky W2" - changes what the experiment actually tells you. You're not measuring architecture. You're measuring one draw from a random number generator.
+
+## The code
+
+The full training script with trace collection across all 8 widths:
+
+<Code src="fma_model.py" title="fma_model.py" collapsed />
+
+The systematic investigation - 20-seed sensitivity analysis, width sweep, random sequence tracing:
+
+<Code src="fma_investigation.py" title="fma_investigation.py" collapsed />
+
+---
+
+## References
+
+<a id="ref-1"></a>1. Frankle, J. & Carlin, M. (2019). The lottery ticket hypothesis: Finding sparse, trainable neural networks. [arXiv:1803.03635](https://arxiv.org/abs/1803.03635)
