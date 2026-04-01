@@ -18,23 +18,23 @@ relatedPosts:
   - what-if-pretrained-weights-are-a-genome-not-a-brain
 ---
 
-Here's a puzzle. I have a 3-layer MLP learning the simplest nonlinear function I can think of: F = m * a. Force equals mass times acceleration. Two inputs, one output, multiplication. The architecture is `[2, N, 64, 1]` with LeakyReLU activations.
+I was trying to figure out the smallest network that can learn multiplication. Not matrix multiplication, not anything fancy - just F = m * a. Two numbers in, one number out. The simplest nonlinear function I could think of.
 
-I train it with N = 63. It gets stuck. Cost plateaus around 137 and refuses to drop further.
+I set up a `[2, 64, 64, 1]` MLP with LeakyReLU and it worked. Cost dropped, the network learned the product. Good. Then I wanted to know how small the first layer could be while still learning, so I tried `[2, 63, 64, 1]`. One fewer neuron in the first hidden layer.
 
-I train it with N = 64. One more neuron. Same seed, same learning rate, same everything else. And it initially looks *worse* - cost sits at 1,430 for *seventy epochs* while the 63-neuron version has already settled. Then, around epoch 80, the 64-neuron network does something violent. Cost crashes from 1,252 to 151 in twenty epochs. A phase transition.
+It didn't work. Cost plateaued around 137 and refused to drop further.
 
-Same task. Same optimizer. One neuron difference. Completely different training story.
+I went back to 64. It worked again. Same seed, same learning rate, same everything. The only difference was one neuron in the first layer. And the training stories weren't even close - the 64-neuron version initially looked *worse*, sitting at cost 1,430 for *seventy epochs* while the 63-neuron version had already settled. Then around epoch 80, the 64-neuron network did something sharp. Cost crashed from 1,252 to 151 in twenty epochs. A phase transition.
 
 <Emphasis>One neuron. Same seed, same learning rate, same data. The 63-neuron network plateaus politely. The 64-neuron network looks dead for 70 epochs, then suddenly collapses to a better solution.</Emphasis>
 
-What's going on?
+That didn't make sense to me. So I started pulling the thread.
 
 ## The setup
 
 The task is deliberately trivial. Generate 1,000 random (m, a) pairs where m and a are uniform in [1, 10]. Target is F = m * a. Split 70/30 into train and validation. Train a fully-connected network with He initialization, LeakyReLU (alpha=0.01), and vanilla gradient descent at learning rate 1e-5 for 150 epochs.
 
-The architecture is `[2, N, 64, 1]` - two inputs, a variable-width first hidden layer, a fixed 64-wide second hidden layer, one linear output. I sweep the first layer width across eight values: 63, 64, 65, 80, 96, 105, 110, 128.
+The architecture is `[2, N, 64, 1]` - two inputs, a variable-width first hidden layer, a fixed 64-wide second hidden layer, one linear output. Once I saw the 63-vs-64 discrepancy, I swept the first layer width across eight values to see if the pattern was wider: 63, 64, 65, 80, 96, 105, 110, 128.
 
 All eight networks use `np.random.seed(1)` for initialization.
 
