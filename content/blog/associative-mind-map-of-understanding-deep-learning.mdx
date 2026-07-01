@@ -19,3 +19,12 @@ All the raw factors:
 9. Octopus intelligence and convergent evolution. Tracing the nature of intelligence across organisms that evolved it independently. Octopuses evolved complex cognition on a completely separate branch from vertebrates. What's shared and what's different tells you what's necessary versus contingent in the architecture of intelligence.
 10. Emergence of language, writing, speech. What's the mandatory condition for tribal knowledge to compound rapidly? Is language causal to the acceleration of human intelligence or is it a consequence? Tracing the sequence — speech, writing, printing, internet — as successive compression and transmission layers for collective knowledge. And whether compounding is even the right frame.
 11. CNN→ViT→genome compression pipeline. Evolution as brute force search. Genome as compressed extracted inductive biases, not a replay of the search. The missing mechanism for extracting and compressing learned biases from large-scale trained models into priors for sample-efficient next-layer systems. Organism-specific reality as the selection criterion for which biases get encoded. Your failed compression experiments as a data point that direct extraction doesn't work cleanly.
+
+Open questions:
+1. Take a 3x3 network with multiple layers and ReLU, make it learn a + b. Run 100 different random seeds. How many times out of 100 does it converge? And how many times is what it learnt internally the same?
+2. For a single matrix interacting with a non-linear activation: if we know what the resulting space looks like, why can't we collapse multiple matrix + activation layers into one? What is the specific mathematical limitation?
+3. What does the gradient tell us about the representation space being actively carved out — is the carving/perturbation at each step random or structured? If random, how does convergence happen? If structured, what is the structure?
+4. Gradient instability (vanishing/exploding) — what does it tell us about the representation space itself being carved, not just about the optimization?
+5. If convergence on a simple function is 100% across all seeds despite ReLU and random initialization in a tiny 9-parameter network, what does that tell us about the solution space? High-dimensional explanations fail here.
+6. The multiplicative low-rank shared weight experiment: (I+BlAl)W1⋅x[l−1](I + B_l A_l) W_1 \cdot x^{[l-1]}
+(I+Bl​Al​)W1​⋅x[l−1] — shared weights with per-layer multiplicative modulation, trained from scratch.
